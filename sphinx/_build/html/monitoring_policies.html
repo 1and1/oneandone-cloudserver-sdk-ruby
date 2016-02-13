@@ -1,0 +1,530 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Monitoring Policies &mdash; 1and1 Ruby SDK 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="1and1 Ruby SDK 1.0 documentation" href="index.html" />
+    <link rel="next" title="Logs" href="logs.html" />
+    <link rel="prev" title="Monitoring Center" href="monitoring_center.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="monitoring-policies">
+<h1>Monitoring Policies<a class="headerlink" href="#monitoring-policies" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt>
+<code class="descname">OneAndOne::MonitoringPolicy()</code></dt>
+<dd><p>The <code class="xref rb rb-class docutils literal"><span class="pre">MonitoringPolicy</span></code> class allows a user to perform actions against the 1and1 API.</p>
+<dl class="method">
+<dt id="list">
+<code class="descname">list</code><span class="sig-paren">(</span><em>page: nil</em>, <em>per_page: nil</em>, <em>sort: nil</em>, <em>q: nil</em>, <em>fields: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all monitoring policies.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>page</strong> (<code class="docutils literal"><span class="pre">int</span></code>) &#8211; Allows the use of pagination. Indicate which page to start on.</li>
+<li><strong>per_page</strong> (<code class="docutils literal"><span class="pre">int</span></code>) &#8211; Number of items per page.</li>
+<li><strong>sort</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; <code class="docutils literal"><span class="pre">sort:</span> <span class="pre">'name'</span></code> retrieves a list of elements sorted
+alphabetically. <code class="docutils literal"><span class="pre">sort:</span> <span class="pre">'creation_date'</span></code> retrieves a list of elements
+sorted by their creation date in descending order.</li>
+<li><strong>q</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; <code class="docutils literal"><span class="pre">q</span></code> is for query. Use this parameter to return only the items
+that match your search query.</li>
+<li><strong>fields</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; Returns only the parameters requested.
+(i.e. fields: &#8216;id, name, description, hardware.ram&#8217;)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="create">
+<code class="descname">create</code><span class="sig-paren">(</span><em>name: nil</em>, <em>description: nil</em>, <em>email: nil</em>, <em>agent: nil</em>, <em>thresholds: nil</em>, <em>ports: nil</em>, <em>processes: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a monitoring policy.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; monitoring policy name.</li>
+<li><strong>description</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; monitoring policy description.</li>
+<li><strong>email</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; user&#8217;s email.</li>
+<li><strong>agent</strong> (<code class="docutils literal"><span class="pre">bool</span></code>) &#8211; set true for using agent.</li>
+<li><strong>thresholds</strong> (<code class="docutils literal"><span class="pre">hash</span></code>) &#8211; a &#8220;thresholds hash&#8221; that sets warning and critical limits for <code class="docutils literal"><span class="pre">cpu</span></code>, <code class="docutils literal"><span class="pre">ram</span></code>, <code class="docutils literal"><span class="pre">disk</span></code>, <code class="docutils literal"><span class="pre">transfer</span></code>, and <code class="docutils literal"><span class="pre">internal_ping</span></code>.</li>
+<li><strong>ports</strong> (<code class="docutils literal"><span class="pre">array</span></code>) &#8211; an array of &#8220;port hashes&#8221;.</li>
+<li><strong>processes</strong> (<code class="docutils literal"><span class="pre">array</span></code>) &#8211; an array of &#8220;process hashes&#8221;.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em><span class="sig-paren">)</span><a class="headerlink" href="#get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a monitoring policy&#8217;s current specs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modify">
+<code class="descname">modify</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em>, <em>name: nil</em>, <em>description: nil</em>, <em>email: nil</em>, <em>thresholds: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#modify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify a monitoring policy.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+<li><strong>name</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; monitoring policy name.</li>
+<li><strong>description</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; monitoring policy description.</li>
+<li><strong>email</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; user&#8217;s email.</li>
+<li><strong>thresholds</strong> (<code class="docutils literal"><span class="pre">hash</span></code>) &#8211; a &#8220;thresholds hash&#8221; that sets warning and critical limits for <code class="docutils literal"><span class="pre">cpu</span></code>, <code class="docutils literal"><span class="pre">ram</span></code>, <code class="docutils literal"><span class="pre">disk</span></code>, <code class="docutils literal"><span class="pre">transfer</span></code>, and <code class="docutils literal"><span class="pre">internal_ping</span></code>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em><span class="sig-paren">)</span><a class="headerlink" href="#delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a monitoring policy.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ports">
+<code class="descname">ports</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em><span class="sig-paren">)</span><a class="headerlink" href="#ports" title="Permalink to this definition">¶</a></dt>
+<dd><p>List a monitoring policy&#8217;s ports.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="add_ports">
+<code class="descname">add_ports</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em>, <em>ports: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#add_ports" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add ports to a monitoring policy.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+<li><strong>ports</strong> (<code class="docutils literal"><span class="pre">array</span></code>) &#8211; an array of &#8220;port hashes&#8221;.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="port">
+<code class="descname">port</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em>, <em>port_id: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#port" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns information about a monitoring policy&#8217;s port.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+<li><strong>port_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the port.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modify_port">
+<code class="descname">modify_port</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em>, <em>port_id: nil</em>, <em>new_port: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#modify_port" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify a monitoring policy&#8217;s port.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+<li><strong>port_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the port.</li>
+<li><strong>new_port</strong> (<code class="docutils literal"><span class="pre">hash</span></code>) &#8211; takes a &#8220;port hash&#8221;,</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="delete_port">
+<code class="descname">delete_port</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em>, <em>port_id: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#delete_port" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a monitoring policy&#8217;s port.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+<li><strong>port_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the port.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="processes">
+<code class="descname">processes</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em><span class="sig-paren">)</span><a class="headerlink" href="#processes" title="Permalink to this definition">¶</a></dt>
+<dd><p>List a monitoring policy&#8217;s processes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="process">
+<code class="descname">process</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em>, <em>process_id: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns information about a monitoring policy&#8217;s process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+<li><strong>process_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the process.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="add_processes">
+<code class="descname">add_processes</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em>, <em>processes: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#add_processes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add processes to a monitoring policy.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+<li><strong>processes</strong> (<code class="docutils literal"><span class="pre">array</span></code>) &#8211; an array of &#8220;process hashes&#8221;.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modify_process">
+<code class="descname">modify_process</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em>, <em>process_id: nil</em>, <em>new_process: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#modify_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify a monitoring policy&#8217;s process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+<li><strong>process_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the process.</li>
+<li><strong>new_process</strong> (<code class="docutils literal"><span class="pre">hash</span></code>) &#8211; takes a &#8220;process hash&#8221;,</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="delete_process">
+<code class="descname">delete_process</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em>, <em>process_id: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#delete_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a monitoring policy&#8217;s process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+<li><strong>process_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the process.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="servers">
+<code class="descname">servers</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em><span class="sig-paren">)</span><a class="headerlink" href="#servers" title="Permalink to this definition">¶</a></dt>
+<dd><p>List a monitoring policy&#8217;s servers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server">
+<code class="descname">server</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em>, <em>server_id: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns information about a monitoring policy&#8217;s server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+<li><strong>server_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the server.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="add_servers">
+<code class="descname">add_servers</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em>, <em>servers: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#add_servers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add servers to a monitoring policy.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+<li><strong>servers</strong> (<code class="docutils literal"><span class="pre">array</span></code>) &#8211; an array of server ID strings.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="remove_server">
+<code class="descname">remove_server</code><span class="sig-paren">(</span><em>monitoring_policy_id: &#64;id</em>, <em>server_id: nil</em><span class="sig-paren">)</span><a class="headerlink" href="#remove_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a server from a monitoring policy.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>monitoring_policy_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the monitoring policy.</li>
+<li><strong>server_id</strong> (<code class="docutils literal"><span class="pre">str</span></code>) &#8211; the unique identifier for the server.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="wait_for">
+<code class="descname">wait_for</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wait_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>Polls the monitoring policy until an &#8220;ACTIVE&#8221; state is returned.  Use this when chaining actions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal"><span class="pre">nil</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="monitoring_center.html" title="previous chapter">Monitoring Center</a></li>
+      <li>Next: <a href="logs.html" title="next chapter">Logs</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/monitoring_policies.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, StackPointCloud, Inc..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/monitoring_policies.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
