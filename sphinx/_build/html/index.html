@@ -1,0 +1,571 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1&amp;1’s Ruby SDK &mdash; 1and1 Ruby SDK 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="1and1 Ruby SDK 1.0 documentation" href="#" />
+    <link rel="next" title="Servers" href="servers.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="s-ruby-sdk">
+<h1>1&amp;1&#8217;s Ruby SDK<a class="headerlink" href="#s-ruby-sdk" title="Permalink to this headline">¶</a></h1>
+<p>The 1&amp;1 Ruby SDK is a Ruby gem used for interacting with the 1&amp;1
+platform over the REST API.</p>
+<p>This guide will show you how to programmatically use the 1&amp;1 library to perform
+common management tasks also available through the 1&amp;1 Control Panel.</p>
+<div class="section" id="concepts">
+<h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline">¶</a></h2>
+<p>The Ruby Client Library wraps the latest version of the 1&amp;1 REST API. All
+API operations are performed over SSL and authenticated using your 1&amp;1 API Token.
+The API can be accessed within an instance running in 1&amp;1 or directly over
+the Internet from any application that can send an HTTPS request and receive
+an HTTPS response.</p>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>Before you begin you will need to have signed-up for a 1&amp;1 account. The
+credentials you setup during sign-up will be used to authenticate against the API.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>You can install the latest stable version using:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ gem install 1and1
+</pre></div>
+</div>
+<p>Done!</p>
+</div>
+<div class="section" id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h2>
+<p>Start your application by calling the <code class="xref rb rb-func docutils literal"><span class="pre">OneAndOne.start</span></code> method
+with your API Token:</p>
+<div class="highlight-python"><div class="highlight"><pre>require &#39;oneandone&#39;
+
+OneAndOne.start(&#39;&lt;API-TOKEN&gt;&#39;)
+</pre></div>
+</div>
+<p>If you have yet to create your API Token, follow the
+instructions below:</p>
+<ol class="arabic simple">
+<li>From the 1&amp;1 Control Panel, click Management &gt; Users.</li>
+<li>In the Users section, click Create.</li>
+<li>Enter the desired user name.</li>
+<li>In the Password field, enter the password and repeat it.</li>
+<li>Enter the desired e-mail address.</li>
+<li>Click Create.</li>
+<li>Select the created user</li>
+<li>In the details of the User, in the API section, click on &#8220;Disabled&#8221;.</li>
+<li>Click Yes.</li>
+<li>Click Apply Changes.</li>
+<li>In the API Key section, click Display User Information. The API Key will be displayed.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can now perform requests using any of the module&#8217;s class methods outlined in the Table of Contents below.</p>
+</div>
+</div>
+<div class="section" id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="servers.html">Servers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shared_storages.html">Shared Storages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firewalls.html">Firewall Policies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="load_balancers.html">Load Balancers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="public_ips.html">Public IPs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="private_networks.html">Private Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monitoring_center.html">Monitoring Center</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monitoring_policies.html">Monitoring Policies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logs.html">Logs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usages.html">Usages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server_appliances.html">Server Appliances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dvds.html">DVD&#8217;s</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Permalink to this headline">¶</a></h2>
+<p>Official 1&amp;1 REST API Documentation: <a class="reference external" href="https://cloudpanel-api.1and1.com/documentation/v1/#">API</a></p>
+<p>1&amp;1 Ruby SDK Repo: <a class="reference external" href="https://github.com/1and1/oneandone-cloudserver-sdk-ruby">Github</a></p>
+</div>
+<div class="section" id="create-server">
+<h2>Create Server<a class="headerlink" href="#create-server" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre>require &#39;oneandone&#39;
+
+OneAndOne.start(&#39;&lt;API-TOKEN&gt;&#39;) # Init module with API Key
+
+
+# Instantiate Server Object
+server = OneAndOne::Server.new()
+
+# Create HDD&#39;s
+hdd1 = {
+  &#39;size&#39; =&gt; 120,
+  &#39;is_main&#39; =&gt; true
+}
+
+hdds = [hdd1]
+
+# Perform Request
+response = server.create(name: &#39;Example Server&#39;,
+                         vcore: 1,
+                         cores_per_processor: 1,
+                         ram: 1,
+                         appliance_id: &#39;&lt;IMAGE-ID&gt;&#39;,
+                         hdds: hdds)
+
+puts JSON.pretty_generate(response)
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-firewall-policy">
+<h2>Create Firewall Policy<a class="headerlink" href="#create-firewall-policy" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre>require &#39;oneandone&#39;
+
+OneAndOne.start(&#39;&lt;API-TOKEN&gt;&#39;) # Init module with API Key
+
+
+# Instantiate Firewall Object
+firewall = OneAndOne::Firewall.new()
+
+# Create Rules
+rule1 = {
+  &#39;protocol&#39; =&gt; &#39;TCP&#39;,
+  &#39;port_from&#39; =&gt; 80,
+  &#39;port_to&#39; =&gt; 80,
+  &#39;source&#39; =&gt; &#39;0.0.0.0&#39;
+}
+
+rules = [rule1]
+
+# Perform Request
+response = firewall.create(name: &#39;Test Firewall&#39;,
+                           description: &#39;Example Desc&#39;,
+                           rules: rules)
+
+puts JSON.pretty_generate(response)
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-load-balancer">
+<h2>Create Load Balancer<a class="headerlink" href="#create-load-balancer" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre>require &#39;oneandone&#39;
+
+OneAndOne.start(&#39;&lt;API-TOKEN&gt;&#39;) # Init module with API Key
+
+
+# Instantiate Load Balancer Object
+load_balancer = OneAndOne::LoadBalancer.new()
+
+# Create Rules
+rule1 = {
+  &#39;protocol&#39; =&gt; &#39;TCP&#39;,
+  &#39;port_balancer&#39; =&gt; 80,
+  &#39;port_server&#39; =&gt; 80,
+  &#39;source&#39; =&gt; &#39;0.0.0.0&#39;
+}
+
+rules = [rule1]
+
+# Perform Request
+response = load_balancer.create(name: &#39;Test LB&#39;,
+                                description: &#39;Example Desc&#39;,
+                                health_check_test: &#39;TCP&#39;,
+                                health_check_interval: 40,
+                                persistence: true,
+                                persistence_time: 1200,
+                                method: &#39;ROUND_ROBIN&#39;,
+                                rules: rules)
+
+puts JSON.pretty_generate(response)
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-monitoring-policy">
+<h2>Create Monitoring Policy<a class="headerlink" href="#create-monitoring-policy" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre>require &#39;oneandone&#39;
+
+OneAndOne.start(&#39;&lt;API-TOKEN&gt;&#39;) # Init module with API Key
+
+
+# Instantiate Monitoring Policy Object
+monitoring_policy = OneAndOne::MonitoringPolicy.new()
+
+# Create Threshold Limits
+thresholds = {
+  &#39;cpu&#39; =&gt; {
+    &#39;warning&#39; =&gt; {
+      &#39;value&#39; =&gt; 90,
+      &#39;alert&#39; =&gt; false
+    },
+    &#39;critical&#39; =&gt; {
+      &#39;value&#39; =&gt; 95,
+      &#39;alert&#39; =&gt; false
+    }
+  },
+  &#39;ram&#39; =&gt; {
+    &#39;warning&#39; =&gt; {
+      &#39;value&#39; =&gt; 90,
+      &#39;alert&#39; =&gt; false
+    },
+    &#39;critical&#39; =&gt; {
+      &#39;value&#39; =&gt; 95,
+      &#39;alert&#39; =&gt; false
+    }
+  },
+  &#39;disk&#39; =&gt; {
+    &#39;warning&#39; =&gt; {
+      &#39;value&#39; =&gt; 90,
+      &#39;alert&#39; =&gt; false
+    },
+    &#39;critical&#39; =&gt; {
+      &#39;value&#39; =&gt; 95,
+      &#39;alert&#39; =&gt; false
+    }
+  },
+  &#39;transfer&#39; =&gt; {
+    &#39;warning&#39; =&gt; {
+      &#39;value&#39; =&gt; 1000,
+      &#39;alert&#39; =&gt; false
+    },
+    &#39;critical&#39; =&gt; {
+      &#39;value&#39; =&gt; 2000,
+      &#39;alert&#39; =&gt; false
+    }
+  },
+  &#39;internal_ping&#39; =&gt; {
+    &#39;warning&#39; =&gt; {
+      &#39;value&#39; =&gt; 50,
+      &#39;alert&#39; =&gt; false
+    },
+    &#39;critical&#39; =&gt; {
+      &#39;value&#39; =&gt; 100,
+      &#39;alert&#39; =&gt; false
+    }
+  }
+}
+
+# Create Ports
+port1 = {
+  &#39;protocol&#39; =&gt; &#39;TCP&#39;,
+  &#39;port&#39; =&gt; 80,
+  &#39;alert_if&#39; =&gt; &#39;NOT_RESPONDING&#39;,
+  &#39;email_notification&#39; =&gt; true
+}
+
+ports = [port1]
+
+# Create Processes
+process1 = {
+  &#39;process&#39; =&gt; &#39;test&#39;,
+  &#39;alert_if&#39; =&gt; &#39;NOT_RUNNING&#39;,
+  &#39;email_notification&#39; =&gt; true
+}
+
+processes = [process1]
+
+# Perform Request
+response = monitoring_policy.create(name: &#39;Test Monitoring Policy&#39;,
+                                    email: &#39;test@example.com&#39;,
+                                    agent: true,
+                                    thresholds: thresholds,
+                                    ports: ports,
+                                    processes: processes)
+
+puts JSON.pretty_generate(response)
+</pre></div>
+</div>
+<p>Then, add a server or two:</p>
+<div class="highlight-python"><div class="highlight"><pre># Add Servers
+server1 = &#39;&lt;SERVER-ID&gt;&#39;
+server2 = &#39;&lt;SERVER-ID&gt;&#39;
+
+servers = [server1, server2]
+
+# Perform Request
+response = monitoring_policy.add_servers(servers: servers)
+
+puts JSON.pretty_generate(response)
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-server-cores-memory-and-disk">
+<h2>Update Server Cores, Memory, and Disk<a class="headerlink" href="#update-server-cores-memory-and-disk" title="Permalink to this headline">¶</a></h2>
+<p>1&amp;1 allows users to dynamically update cores, memory, and disk independently of each other. This removes the restriction of needing to upgrade to the next size up to receive an increase in memory. You can now simply increase the instances memory keeping your costs in-line with your resource needs.</p>
+<p>The following code illustrates how you can update cores and memory:</p>
+<div class="highlight-python"><div class="highlight"><pre>require &#39;oneandone&#39;
+
+OneAndOne.start(&#39;&lt;API-TOKEN&gt;&#39;) # Init module with API Key
+
+
+# Instantiate Server Object
+server = OneAndOne::Server.new()
+
+# Perform Request
+response = server.modify_hardware(server_id: &#39;&lt;SERVER-ID&gt;&#39;,
+                                  vcore: 2,
+                                  ram: 6)
+
+puts JSON.pretty_generate(response)
+</pre></div>
+</div>
+<p>This is how you would update a server disk&#8217;s size:</p>
+<div class="highlight-python"><div class="highlight"><pre>require &#39;oneandone&#39;
+
+OneAndOne.start(&#39;&lt;API-TOKEN&gt;&#39;) # Init module with API Key
+
+
+# Instantiate Server Object
+server = OneAndOne::Server.new()
+
+# Perform Request
+response = server.modify_hdd(server_id: &#39;&lt;SERVER-ID&gt;&#39;,
+                             hdd_id: &#39;&lt;HDD-ID&gt;&#39;,
+                             size: 140)
+
+puts JSON.pretty_generate(response)
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-app">
+<h2>Example App<a class="headerlink" href="#example-app" title="Permalink to this headline">¶</a></h2>
+<p>This simple app creates a load balancer, firewall policy, and server.  It then creates a new IP for the server and adds the load balancer and firewall policy to that IP.</p>
+<p>Use the <code class="docutils literal"><span class="pre">wait_for</span></code> method to chain together multiple actions that take some time to deploy.</p>
+<div class="highlight-python"><div class="highlight"><pre>require_relative &#39;../lib/oneandone&#39;
+
+OneAndOne.start(&#39;&lt;API-TOKEN&gt;&#39;) # Init module with API key
+
+
+
+### Create load balancer
+load_balancer = OneAndOne::LoadBalancer.new
+
+rule1 = {
+  &#39;protocol&#39; =&gt; &#39;TCP&#39;,
+  &#39;port_balancer&#39; =&gt; 80,
+  &#39;port_server&#39; =&gt; 80,
+  &#39;source&#39; =&gt; &#39;0.0.0.0&#39;
+}
+
+rules = [rule1]
+
+lb1 = load_balancer.create(name: &#39;Example App LB&#39;,
+                           description: &#39;Example Desc&#39;,
+                           health_check_test: &#39;TCP&#39;,
+                           health_check_interval: 40,
+                           persistence: true,
+                           persistence_time: 1200,
+                           method: &#39;ROUND_ROBIN&#39;,
+                           rules: rules)
+
+# Wait for load balancer to deploy
+puts &quot;Creating load balancer...&quot;
+load_balancer.wait_for
+
+
+
+### Create firewall policy
+firewall = OneAndOne::Firewall.new()
+
+rule1 = {
+  &#39;protocol&#39; =&gt; &#39;TCP&#39;,
+  &#39;port_from&#39; =&gt; 80,
+  &#39;port_to&#39; =&gt; 80,
+  &#39;source&#39; =&gt; &#39;0.0.0.0&#39;
+}
+
+rules = [rule1]
+
+fp1 = firewall.create(name: &#39;Example App Firewall&#39;,
+                      description: &#39;Example Desc&#39;,
+                      rules: rules)
+
+# Wait for firewall policy to deploy
+puts &quot;Creating firewall policy...&quot;
+firewall.wait_for
+
+
+
+### Create a server
+server = OneAndOne::Server.new()
+
+hdd1 = {
+  &#39;size&#39; =&gt; 120,
+  &#39;is_main&#39; =&gt; true
+}
+
+hdds = [hdd1]
+
+server1 = server.create(name: &#39;Example App Server&#39;,
+                        vcore: 1,
+                        cores_per_processor: 1,
+                        ram: 1,
+                        appliance_id: &#39;&lt;IMAGE-ID&gt;&#39;,
+                        hdds: hdds)
+
+# Wait for server to deploy
+puts &quot;Creating server...&quot;
+server.wait_for
+
+
+
+### Add a new IP to the server
+puts &quot;Adding an IP to the server...&quot;
+response = server.add_ip
+new_ip = response[&#39;ips&#39;][1][&#39;id&#39;]
+
+
+
+### Add the load balancer to the new IP
+response = server.add_load_balancer(ip_id: new_ip,
+                                    load_balancer_id: load_balancer.id)
+
+# Wait for load balancer to be added
+puts &quot;Adding load balancer to new server IP...&quot;
+server.wait_for
+
+
+
+### Add the firewall policy to the new IP
+response = server.add_firewall(ip_id: new_ip,
+                               firewall_id: firewall.id)
+
+# Wait for firewall policy to be added
+puts &quot;Adding firewall policy to new server IP...&quot;
+server.wait_for
+puts &quot;Everything looks good!&quot;
+
+
+
+### Cleanup
+puts &quot;Let&#39;s clean up the mess we just made.&quot;
+
+puts &quot;Deleting server...&quot;
+response = server.delete
+puts &quot;Success!&quot;
+
+puts &quot;Deleting load balancer...&quot;
+response = load_balancer.delete
+puts &quot;Success!&quot;
+
+puts &quot;Deleting firewall policy...&quot;
+response = firewall.delete
+puts &quot;Success!&quot;
+
+puts &quot;All done!&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="index">
+<h2>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+</ul>
+<span class="target" id="module-OneAndOne"></span></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1&amp;1&#8217;s Ruby SDK</a><ul>
+<li><a class="reference internal" href="#concepts">Concepts</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#authentication">Authentication</a></li>
+<li><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+<li><a class="reference internal" href="#resources">Resources</a></li>
+<li><a class="reference internal" href="#create-server">Create Server</a></li>
+<li><a class="reference internal" href="#create-firewall-policy">Create Firewall Policy</a></li>
+<li><a class="reference internal" href="#create-load-balancer">Create Load Balancer</a></li>
+<li><a class="reference internal" href="#create-monitoring-policy">Create Monitoring Policy</a></li>
+<li><a class="reference internal" href="#update-server-cores-memory-and-disk">Update Server Cores, Memory, and Disk</a></li>
+<li><a class="reference internal" href="#example-app">Example App</a></li>
+<li><a class="reference internal" href="#index">Index</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="servers.html" title="next chapter">Servers</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, StackPointCloud, Inc..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/index.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
