@@ -15,7 +15,6 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0")
   spec.test_files    = spec.files.grep(%r{^(test)/})
   spec.require_paths = ["lib"]
-  spec.platform      = Gem::Platform.CURRENT
 
   spec.add_runtime_dependency "excon", "~> 0.44"
   spec.add_runtime_dependency "json", "~> 1.8"

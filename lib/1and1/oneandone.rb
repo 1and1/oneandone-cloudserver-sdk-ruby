@@ -12,7 +12,9 @@ module OneAndOne
       'Content-Type' => 'application/json'
     }
     $success_codes = [200, 201, 202]
-    $good_states = ['ACTIVE', 'POWERED_ON', 'POWERED_OFF']
+    $good_states = ['ACTIVE', 'ENABLED', 'POWERED_ON', 'POWERED_OFF']
+
+    true
 
   end
 
@@ -30,7 +32,7 @@ module OneAndOne
 
   def OneAndOne.build_url(endpoint)
 
-    path = $version + endpoint
+    $version + endpoint
 
   end
 
@@ -43,9 +45,11 @@ module OneAndOne
     end
 
     # Raise exception if a bad status code is received
-    if not $success_codes.include? status
+    unless $success_codes.include? status
       raise message
     end
+
+    true
 
   end
 

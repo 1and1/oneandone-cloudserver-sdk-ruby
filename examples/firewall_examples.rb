@@ -1,10 +1,3 @@
-require_relative 'oneandone'
-
-OneAndOne.start('<API-TOKEN>')
-
-
-
-
 # List all firewall policies on your account
 firewall = OneAndOne::Firewall.new()
 

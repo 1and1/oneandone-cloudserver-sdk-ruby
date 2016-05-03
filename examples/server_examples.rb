@@ -1,10 +1,3 @@
-require_relative 'oneandone'
-
-OneAndOne.start('<API-TOKEN>')
-
-
-
-
 # List all servers on your account
 server = OneAndOne::Server.new()
 
@@ -27,6 +20,56 @@ hdds = [hdd1]
 response = server.create(name: 'Example Server', vcore: 1,
   cores_per_processor: 1, ram: 1,
   appliance_id: '<IMAGE-ID>', hdds: hdds)
+
+puts JSON.pretty_generate(response)
+
+## Wait for server to deploy before performing other actions ## 
+puts "\nCreating server, please wait..."
+server.wait_for
+
+
+
+# Create a new server with SSH Key access
+server = OneAndOne::Server.new()
+
+pub_key = '<PUB-KEY>'
+
+hdd1 = {
+  'size' => 120,
+  'is_main' => true
+}
+
+hdds = [hdd1]
+
+response = server.create(name: 'Example Server', vcore: 1,
+  cores_per_processor: 1, ram: 1,
+  appliance_id: '<IMAGE-ID>', hdds: hdds, rsa_key: pub_key)
+
+puts JSON.pretty_generate(response)
+
+## Wait for server to deploy before performing other actions ## 
+puts "\nCreating server, please wait..."
+server.wait_for
+
+
+
+# Create a new server with SSH Key access and explicitly declare your datacenter
+server = OneAndOne::Server.new()
+
+pub_key = '<PUB-KEY>'
+datacenter = '<DATACENTER-ID>'
+
+hdd1 = {
+  'size' => 120,
+  'is_main' => true
+}
+
+hdds = [hdd1]
+
+response = server.create(name: 'Example Server', vcore: 1,
+  cores_per_processor: 1, ram: 1,
+  appliance_id: '<IMAGE-ID>', hdds: hdds, rsa_key: pub_key,
+  datacenter_id: datacenter)
 
 puts JSON.pretty_generate(response)
 

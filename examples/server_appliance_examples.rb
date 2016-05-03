@@ -1,10 +1,3 @@
-require_relative 'oneandone'
-
-OneAndOne.start('<API-TOKEN>')
-
-
-
-
 # List all server appliances on your account
 appliance = OneAndOne::ServerAppliance.new()
 

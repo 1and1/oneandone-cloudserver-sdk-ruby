@@ -49,10 +49,12 @@ class TestServer < Minitest::Test
     hdds = [hdd1]
     
     response = @server.create(name: 'My server', vcore: 1,
-      cores_per_processor: 1, ram: 1, appliance_id: '<IMAGE-ID>', hdds: hdds)
+      cores_per_processor: 1, ram: 1, appliance_id: '<IMAGE-ID>', hdds: hdds,
+      datacenter_id: 'D0F6D8C8ED29D3036F94C27BBB7BAD36', rsa_key: '<PUB-KEY>')
 
     # Assertions
     assert_equal response['name'], 'My server'
+    assert_equal response['datacenter']['country_code'], 'US'
 
     # Clear out stubs
     Excon.stubs.clear

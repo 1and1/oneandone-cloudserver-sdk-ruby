@@ -1,10 +1,3 @@
-require_relative 'oneandone'
-
-OneAndOne.start('<API-TOKEN>')
-
-
-
-
 # List all load balancers on your account
 load_balancer = OneAndOne::LoadBalancer.new()
 

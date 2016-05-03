@@ -19,11 +19,17 @@
 - [Usages](#usages)
 - [Server Appliances](#server-appliances)
 - [DVD's](#dvds)
+- [Data Centers](#datacenters)
+- [Pricing](#pricing)
+- [Ping](#ping)
+- [Ping Auth](#ping-auth)
+- [VPN's](#vpn)
+- [Roles](#roles)
 
 
 # <a name="wait-for"></a>"wait_for"
 
-Use the `wait_for()` method on any major class object to poll its resource until an `"ACTIVE"`, `"POWERED_ON"`, or `"POWERED_OFF"` state is returned.  This is necessary when chaining together multiple actions that take a while to deploy.  The `wait_for()` method is available on the `Server`, `Image`, `SharedStorage`, `FirewallPolicy`, `LoadBalancer`, `PrivateNetwork`, and `MonitoringPolicy` classes.  See the example below:
+Use the `wait_for()` method on any major class object to poll its resource until an `"ACTIVE"`, `"ENABLED"`, `"POWERED_ON"`, or `"POWERED_OFF"` state is returned.  This is necessary when chaining together multiple actions that take some time to deploy.  The `wait_for()` method is available on the `Server`, `Image`, `SharedStorage`, `Vpn`, `FirewallPolicy`, `LoadBalancer`, `PrivateNetwork`, and `MonitoringPolicy` classes.  It returns a hash containing the execution duration.  See the example below:
 ```
 require 'oneandone'
 
@@ -51,7 +57,7 @@ server1 = server.create(name: 'Example App Server',
 
 # Wait for server to deploy
 puts "Creating server..."
-server.wait_for
+puts server.wait_for
 
 
 
@@ -59,12 +65,22 @@ server.wait_for
 puts "Adding an IP to the server..."
 response = server.add_ip
 ```
+You may pass in an optional `timeout` value (in minutes) which stops the `wait_for()` method from polling after the given amount of time.  `timeout` is set to 25 minutes by default.  You may also set the `interval` value (in seconds).  The default value for `interval` varies by class.
 
 
 
 # <a name="attributes"></a>Class Attributes
 
-When creating a new resource (Server, Image, etc) the class object will automatically parse the returned JSON response and store its unique ID for later use.  This allows you to perform further actions on the resource without having to pass in its unique identifier every time.  The ID is stored in the `id` attribute.  If we extend our previous example, notice how we add a load balancer to the server's IP:
+When creating a new resource (Server, Image, etc) the class object will automatically parse the returned JSON response and store its unique ID for later use.  This allows you to perform further actions on the resource without having to pass its unique identifier each time.  The ID is stored in the `id` attribute. 
+
+In addition to the `id` attribute, you also have access to the following:
+- `first_ip`: the initial IP address assigned to your new server.
+- `first_password`: the initial password for connecting to your new server.
+- `specs`: hash containing all attributes parsed from JSON response.
+
+`specs` allows you to access any other information from your resource that you might want to use in future operations.  `specs` is updated every time you call `reload()`, and is also continuously updated throughout the duration of `wait_for()`'s execution.
+
+If we extend our previous example, notice how we add a load balancer using the `first_ip` attribute:
 
 ```
 require 'oneandone'
@@ -93,14 +109,7 @@ response = server.create(name: 'Example App Server',
 
 # Wait for server to deploy
 puts "Creating server..."
-server.wait_for
-
-
-
-# Add a new IP to the server
-puts "Adding an IP to the server..."
-response = server.add_ip
-new_ip = response['ips'][1]['id']
+puts server.wait_for
 
 
 
@@ -128,22 +137,20 @@ response = load_balancer.create(name: 'Test LB',
                                 
 # Wait for load balancer to deploy
 puts "Creating load balancer..."
-load_balancer.wait_for
+puts load_balancer.wait_for
 
 
 
 # Add the load balancer to the new IP
-response = server.add_load_balancer(ip_id: new_ip,
+response = server.add_load_balancer(ip_id: server.first_ip['id'],
                                     load_balancer_id: load_balancer.id)
 
 
 
 # Wait for load balancer to be added
-puts "Adding load balancer to new server IP..."
-server.wait_for
+puts "Adding load balancer to server IP..."
+puts server.wait_for
 ```
-
-The class object will also store the entire JSON response body in the `specs` attribute.  This allows you to access any other information from your resource that you might want to use in future operations.  As mentioned before, the `id` and `specs` attributes are only available on a class object *after* creating the resource.
 
 
 
@@ -331,13 +338,24 @@ response = server.snapshot(server_id: '<SERVER-ID>')
 ```
 
 
-**Create a server:**
+**Create a fixed server:**
+
+*Note:* `appliance_id` takes an `image_id` string
+```
+
+response = server.create(name: 'Example Server',
+                         fixed_instance_id: '<FIXED-SERVER-ID>',
+                         appliance_id: '<IMAGE-ID>')
+```
+
+
+**Create a custom server:**
 
 *Note:* `hdds` must receive an array with at least one object
 
 *Note:* A Hdd's `size` must be a multiple of `20`
 
-*Note:* `appliance_id`, takes an `image_id` string
+*Note:* `appliance_id` takes an `image_id` string
 ```
 hdd1 = {
   'size' => 120,
@@ -352,6 +370,64 @@ response = server.create(name: 'Example Server',
                          ram: 1,
                          appliance_id: '<IMAGE-ID>',
                          hdds: hdds)
+```
+
+
+**Create a server with SSH Key access:**
+
+*Note:* `hdds` must receive an array with at least one object
+
+*Note:* A Hdd's `size` must be a multiple of `20`
+
+*Note:* `appliance_id` takes an `image_id` string
+```
+pub_key = '<PUB-KEY>'
+
+hdd1 = {
+  'size' => 120,
+  'is_main' => true
+}
+
+hdds = [hdd1]
+
+response = server.create(name: 'Example Server',
+                         vcore: 1,
+                         cores_per_processor: 1,
+                         ram: 1,
+                         appliance_id: '<IMAGE-ID>',
+                         hdds: hdds,
+                         rsa_key: pub_key)
+```
+
+
+**Create a server with SSH Key access and explicitly declare your datacenter:**
+
+*Note:* `hdds` must receive an array with at least one object
+
+*Note:* A Hdd's `size` must be a multiple of `20`
+
+*Note:* `appliance_id` takes an `image_id` string
+
+*Note:* `appliance_id` location must match datacenter location (ex. DE and DE)
+```
+pub_key = '<PUB-KEY>'
+datacenter = '<DATACENTER-ID>'
+
+hdd1 = {
+  'size' => 120,
+  'is_main' => true
+}
+
+hdds = [hdd1]
+
+response = server.create(name: 'Example Server',
+                         vcore: 1,
+                         cores_per_processor: 1,
+                         ram: 1,
+                         appliance_id: '<IMAGE-ID>',
+                         hdds: hdds,
+                         rsa_key: pub_key,
+                         datacenter_id: datacenter)
 ```
 
 
@@ -2074,4 +2150,298 @@ response = dvd.list
 
 ```
 response = dvd.get(dvd_id: '<DVD-ID>')
+```
+
+
+
+# <a name="datacenters"></a>Data Centers
+
+
+Get started by instantiating a `Datacenter` object:
+
+```
+datacenter = OneAndOne::Datacenter.new
+```
+
+**List all available data centers:**
+
+```
+response = datacenter.list
+```
+
+
+**Returns information about a data center:**
+
+```
+response = datacenter.get(datacenter_id: '<DATACENTER-ID>')
+```
+
+
+
+# <a name="pricing"></a>Pricing
+
+
+Get started by instantiating a `Pricing` object:
+
+```
+pricing = OneAndOne::Pricing.new
+```
+
+**List pricing for all available resources in Cloud Panel:**
+
+```
+response = pricing.list
+```
+
+
+
+# <a name="ping"></a>Ping
+
+
+Get started by instantiating a `Ping` object:
+
+```
+ping = OneAndOne::Ping.new
+```
+
+**Returns `"PONG"` if the API is running:**
+
+```
+response = ping.get
+```
+
+
+
+# <a name="ping-auth"></a>Ping Auth
+
+
+Get started by instantiating a `PingAuth` object:
+
+```
+ping_auth = OneAndOne::PingAuth.new
+```
+
+**Returns `"PONG"` if the API is running and your token is valid:**
+
+```
+response = ping_auth.get
+```
+
+
+
+# <a name="vpn"></a>VPN's
+
+Get started by instantiating an `Vpn` object:
+
+```
+vpn = OneAndOne::Vpn.new
+```
+
+
+
+**List all VPN's:**
+
+```
+response = vpn.list
+```
+
+
+**Retrieve a single VPN:**
+
+```
+response = vpn.get
+
+OR
+
+response = vpn.get(vpn_id: '<VPN-ID>')
+```
+
+
+**Create a VPN:**
+
+```
+response = vpn.create(name: 'Example VPN')
+```
+
+
+**Modify a VPN:**
+
+```
+response = vpn.modify(name: 'New Name')
+
+OR
+
+response = vpn.modify(vpn_id: '<VPN-ID>', name: 'New Name')
+```
+
+
+**Delete a VPN:**
+
+```
+response = vpn.delete
+
+OR
+
+response = vpn.delete(vpn_id: '<VPN-ID>')
+```
+
+
+**Download a VPN's config file:**
+
+```
+response = vpn.download_config
+
+OR
+
+response = vpn.download_config(vpn_id: '<VPN-ID>')
+```
+
+
+
+# <a name="roles"></a>Roles
+
+Get started by instantiating an `Role` object:
+
+```
+role = OneAndOne::Role.new
+```
+
+
+
+**List all available roles on your account:**
+
+```
+response = role.list
+```
+
+
+**Retrieve a single role:**
+
+```
+response = role.get
+
+OR
+
+response = role.get(role_id: '<ROLE-ID>')
+```
+
+
+**Create a role:**
+
+```
+response = role.create(name: 'Example Role')
+```
+
+
+**Modify a role:**
+
+```
+response = role.modify(name: 'New Name', state: 'ACTIVE')
+
+OR
+
+response = role.modify(role_id: '<ROLE-ID>', name: 'New Name', state: 'ACTIVE')
+```
+
+
+**Delete a role:**
+
+```
+response = role.delete
+
+OR
+
+response = role.delete(role_id: '<ROLE-ID>')
+```
+
+
+
+**List a role's permissions:**
+
+```
+response = role.permissions
+
+OR
+
+response = role.permissions(role_id: '<ROLE-ID>')
+```
+
+
+
+**Modify a role's permissions:**
+
+```
+server_perms = {
+  'show' => true,
+  'create' => true,
+  'delete' => false
+}
+
+response = role.modify_permissions(servers: server_perms)
+
+OR
+
+response = role.modify_permissions(role_id: '<ROLE-ID>', servers: server_perms)
+```
+
+
+
+**List the users assigned to a role:**
+
+```
+response = role.users
+
+OR
+
+response = role.users(role_id: '<ROLE-ID>')
+```
+
+
+
+**Assign new users to a role:**
+
+```
+users = ['<USER1-ID>', '<USER2-ID>']
+
+response = role.add_users(users: users)
+
+OR
+
+response = role.add_users(role_id: '<ROLE-ID>', users: users)
+```
+
+
+
+**Returns information about a user assigned to a role:**
+
+```
+response = role.get_user(user_id: '<USER-ID>')
+
+OR
+
+response = role.get_user(role_id: '<ROLE-ID>', user_id: '<USER-ID>')
+```
+
+
+
+**Unassign a user from a role:**
+
+```
+response = role.remove_user(user_id: '<USER-ID>')
+
+OR
+
+response = role.remove_user(role_id: '<ROLE-ID>', user_id: '<USER-ID>')
+```
+
+
+
+**Clone a role:**
+
+```
+response = role.clone(name: 'Role Clone')
+
+OR
+
+response = role.clone(role_id: '<ROLE-ID>', name: 'Role Clone')
 ```

@@ -1,10 +1,3 @@
-require_relative 'oneandone'
-
-OneAndOne.start('<API-TOKEN>')
-
-
-
-
 # List all shared storages on your account
 shared_storage = OneAndOne::SharedStorage.new()
 

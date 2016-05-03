@@ -1,7 +1,7 @@
 module OneAndOne
 
 
-  class MonitoringCenter
+  class Datacenter
 
 
     def initialize(test: false)
@@ -31,7 +31,7 @@ module OneAndOne
       params = OneAndOne.clean_hash(keyword_args)
 
       # Build URL
-      path = OneAndOne.build_url('/monitoring_center')
+      path = OneAndOne.build_url('/datacenters')
 
       # Perform request
       response = @connection.request(:method => :get,
@@ -48,32 +48,21 @@ module OneAndOne
     end
 
 
-    def get(server_id: nil, period: nil, start_date: nil, end_date: nil)
+    def get(datacenter_id: nil)
 
-        # Build hash for query parameters
-        keyword_args = {
-          :period => period,
-          :start_date => start_date,
-          :end_date => end_date
-        }
+      # Build URL
+      path = OneAndOne.build_url("/datacenters/#{datacenter_id}")
 
-        # Clean out null query parameters
-        params = OneAndOne.clean_hash(keyword_args)
+      # Perform request
+      response = @connection.request(:method => :get,
+        :path => path,
+        :headers => $header)
 
-        # Build URL
-        path = OneAndOne.build_url("/monitoring_center/#{server_id}")
+      # Check response status
+      OneAndOne.check_response(response.body, response.status)
 
-        # Perform request
-        response = @connection.request(:method => :get,
-          :path => path,
-          :headers => $header,
-          :query => params)
-
-        # Check response status
-        OneAndOne.check_response(response.body, response.status)
-
-        #JSON-ify the response string
-        JSON.parse(response.body)
+      #JSON-ify the response string
+      JSON.parse(response.body)
 
     end
 

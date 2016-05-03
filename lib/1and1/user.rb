@@ -49,7 +49,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -112,7 +112,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -150,7 +150,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -172,7 +172,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -194,7 +194,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -225,7 +225,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -247,7 +247,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -269,7 +269,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -291,7 +291,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -322,7 +322,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -344,7 +344,26 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
+
+    end
+
+
+    def permissions
+
+      # Build URL
+      path = OneAndOne.build_url('/users/current_user_permissions')
+
+      # Perform request
+      response = @connection.request(:method => :get,
+        :path => path,
+        :headers => $header)
+
+      # Check response status
+      OneAndOne.check_response(response.body, response.status)
+
+      #JSON-ify the response string
+      JSON.parse(response.body)
 
     end
 

@@ -1,10 +1,3 @@
-require_relative 'oneandone'
-
-OneAndOne.start('<API-TOKEN>')
-
-
-
-
 # List all public IPs on your account
 public_ip = OneAndOne::PublicIP.new()
 

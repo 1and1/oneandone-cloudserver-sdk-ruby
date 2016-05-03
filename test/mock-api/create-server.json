@@ -3,6 +3,11 @@
   "cloudpanel_id": "FE7ED7D",
   "name": "My server",
   "description": "My server description",
+  "datacenter": {
+    "id": "D0F6D8C8ED29D3036F94C27BBB7BAD36",
+    "location": "USA",
+    "country_code": "US"
+  },
   "creation_date": "2015-05-07T08:25:37+00:00",
   "first_password": "Nm4gP97xSw",
   "status": {
@@ -26,4 +31,4 @@
   "alerts": [],
   "monitoring_policy": null,
   "private_networks": null
-} 
+}

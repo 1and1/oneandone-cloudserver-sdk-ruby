@@ -5,11 +5,15 @@ module OneAndOne
 
     
     attr_accessor :id
+    attr_accessor :first_ip
+    attr_accessor :first_password
     attr_accessor :specs
 
 
     def initialize(test: false)
       @id = nil
+      @first_ip = nil
+      @first_password = nil
       @specs = nil
 
       # Check if hitting mock api or live api
@@ -49,15 +53,16 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
 
-    def create(name: nil, description: nil, fixed_instance_id: nil,
+    def create(name: nil, description: nil, rsa_key: nil, fixed_instance_id: nil,
       vcore: nil, cores_per_processor: nil, ram: nil, appliance_id: nil,
-      hdds: nil, password: nil, power_on: nil, firewall_id: nil,
-      ip_id: nil, load_balancer_id: nil, monitoring_policy_id: nil)
+      datacenter_id: nil, hdds: nil, password: nil, power_on: nil,
+      firewall_id: nil, ip_id: nil, load_balancer_id: nil,
+      monitoring_policy_id: nil)
 
       # Build hardware hash
       hardware_params = {
@@ -77,6 +82,8 @@ module OneAndOne
         'description' => description,
         'hardware' => hardware,
         'appliance_id' => appliance_id,
+        'datacenter_id' => datacenter_id,
+        'rsa_key' => rsa_key,
         'password' => password,
         'power_on' => power_on,
         'firewall_policy_id' => firewall_id,
@@ -107,8 +114,9 @@ module OneAndOne
       json = JSON.parse(response.body)
 
       # Save new server ID to Server instance
-      @id = json['id']
       @specs = json
+      @id = json['id']
+      @first_password = json['first_password']
 
       # If all good, return JSON
       json
@@ -130,7 +138,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -149,7 +157,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -172,6 +180,12 @@ module OneAndOne
 
       #JSON-ify the response string
       json = JSON.parse(response.body)
+
+      # Reload specs attribute
+      @specs = json
+
+      # If all good, return JSON
+      json
 
     end
 
@@ -206,7 +220,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -237,7 +251,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -259,7 +273,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -297,7 +311,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -319,7 +333,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -350,7 +364,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -372,7 +386,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -406,7 +420,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -428,7 +442,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -450,7 +464,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -489,7 +503,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -511,7 +525,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -545,7 +559,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -567,7 +581,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -600,7 +614,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -634,7 +648,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -656,7 +670,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -678,7 +692,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -700,7 +714,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -734,7 +748,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -756,7 +770,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -778,7 +792,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -813,7 +827,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -835,7 +849,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -869,7 +883,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -891,7 +905,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -913,7 +927,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -935,7 +949,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -957,7 +971,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -991,7 +1005,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -1013,7 +1027,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -1035,7 +1049,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -1057,7 +1071,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -1079,19 +1093,20 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
 
-    def clone(server_id: @id, name: nil)
+    def clone(server_id: @id, name: nil, datacenter_id: nil)
 
       # If user passed in server ID, reassign
       @id = server_id
 
       # Build PUT body
       clone_specs = {
-        'name' => name
+        'name' => name,
+        'datacenter_id' => datacenter_id
       }
 
       # Clean out null keys in PUT body
@@ -1113,36 +1128,76 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
 
-    def wait_for
+    def reload
 
-      # Check initial status and save server state
+      # This reload fx is just a wrapper for the get fx
+      get
+
+    end
+
+
+    def check_state(response)
+
+      # Parse out server state and percent from response
+      state = response['status']['state']
+      percent = response['status']['percent']
+
+      # This is the ideal server state we are looking for
+      ($good_states.include? state) && (percent == nil)
+
+    end
+
+
+    def parser(response)
+
+      # Check for first IP
+      ips = response['ips']
+
+      if ips.length == 1
+        @first_ip = ips[0]
+      end
+
+    end
+
+
+    def wait_for(timeout: 25, interval: 15)
+
+      # Capture start time
+      start = Time.now
+
+      # Poll server and check initial state
       initial_response = get
-      server_state = initial_response['status']['state']
+      server_state = check_state(initial_response)
 
       # Keep polling the server's state until good
-      while not $good_states.include? server_state
+      until server_state
 
-        # Wait 5 seconds before polling again
-        sleep 5
+        # Wait 15 seconds before polling again
+        sleep interval
 
-        # Check server state again
+        # Check server state and percent again
         current_response = get
-        server_state = current_response['status']['state']
+        server_state = check_state(current_response)
 
-        # Inform user when state is good
-        if $good_states.include? server_state
-          puts "\nSuccess!"
-          puts "Server state: #{server_state} \n"
+        # Calculate current duration and check for timeout
+        duration = (Time.now - start) / 60
+        if duration > timeout
+          puts "The operation timed out after #{timeout} minutes.\n"
+          return
         end
+
+        # Parse for first IP
+        parser(current_response)
 
       end
 
-      nil
+      # Return Duration
+      {:duration => duration}
 
     end
 
