@@ -49,14 +49,15 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
 
     def create(name: nil, description: nil, health_check_test: nil,
       health_check_interval: nil, persistence: nil, persistence_time: nil,
-      method: nil, rules: nil, health_check_path: nil, health_check_parse: nil)
+      method: nil, rules: nil, health_check_path: nil, health_check_parse: nil,
+      datacenter_id: nil)
 
       # Build POST body
       new_load_balancer = {
@@ -69,7 +70,8 @@ module OneAndOne
         'method' => method,
         'rules' => rules,
         'health_check_path' => health_check_path,
-        'health_check_parse' => health_check_parse
+        'health_check_parse' => health_check_parse,
+        'datacenter_id' => datacenter_id
       }
 
       # Clean out null keys in POST body
@@ -122,6 +124,12 @@ module OneAndOne
       #JSON-ify the response string
       json = JSON.parse(response.body)
 
+      # Reload specs attribute
+      @specs = json
+
+      # If all good, return JSON
+      json
+
     end
 
 
@@ -165,7 +173,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -187,7 +195,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -209,7 +217,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -231,7 +239,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -253,7 +261,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -287,7 +295,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -309,7 +317,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -331,7 +339,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -365,7 +373,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -387,36 +395,49 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
 
-    def wait_for
+    def reload
 
-      # Check initial status and save server state
+      # This reload fx is just a wrapper for the get fx
+      get
+
+    end
+
+
+    def wait_for(timeout: 25, interval: 5)
+
+      # Capture start time
+      start = Time.now
+
+      # Poll load balancer and check initial state
       initial_response = get
       load_balancer_state = initial_response['state']
 
-      # Keep polling the server's state until good
-      while not $good_states.include? load_balancer_state
+      # Keep polling the load balancer's state until good
+      until $good_states.include? load_balancer_state
 
-        # Wait 1 second before polling again
-        sleep 1
+        # Wait 5 seconds before polling again
+        sleep interval
 
-        # Check server state again
+        # Check load balancer state again
         current_response = get
         load_balancer_state = current_response['state']
 
-        # Inform user when state is good
-        if $good_states.include? load_balancer_state
-          puts "\nSuccess!"
-          puts "Load Balancer state: #{load_balancer_state} \n"
+        # Calculate current duration and check for timeout
+        duration = (Time.now - start) / 60
+        if duration > timeout
+          puts "The operation timed out after #{timeout} minutes.\n"
+          return
         end
 
       end
 
-      nil
+      # Return Duration
+      {:duration => duration}
 
     end
 

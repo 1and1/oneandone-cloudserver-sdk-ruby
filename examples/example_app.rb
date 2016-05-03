@@ -22,7 +22,7 @@ lb1 = load_balancer.create(name: 'Example App LB', description: 'Example Desc',
 
 # Wait for load balancer to deploy
 puts "\nCreating load balancer...\n"
-load_balancer.wait_for
+puts load_balancer.wait_for
 
 
 
@@ -43,54 +43,41 @@ fp1 = firewall.create(name: 'Example App Firewall', description: 'Example Desc',
 
 # Wait for firewall policy to deploy
 puts "\nCreating firewall policy...\n"
-firewall.wait_for
+puts firewall.wait_for
 
 
 
 ### Create a server
 server = OneAndOne::Server.new
 
-hdd1 = {
-  'size' => 120,
-  'is_main' => true
-}
-
-hdds = [hdd1]
-
-server1 = server.create(name: 'Example App Server', vcore: 1,
-  cores_per_processor: 1, ram: 1,
-  appliance_id: '<IMAGE-ID>', hdds: hdds)
+server1 = server.create(name: 'Example App Server',
+  fixed_instance_id: '65929629F35BBFBA63022008F773F3EB',
+  appliance_id: '6C902E5899CC6F7ED18595EBEB542EE1',
+  datacenter_id: '5091F6D8CBFEF9C26ACE957C652D5D49')
 
 # Wait for server to deploy
 puts "\nCreating server...\n"
-server.wait_for
-
-
-
-### Add a new IP to the server
-puts "\nAdding an IP to the server...\n"
-response = server.add_ip
-new_ip = response['ips'][1]['id']
+puts server.wait_for
 
 
 
 ### Add the load balancer to the new IP
-response = server.add_load_balancer(ip_id: new_ip,
+response = server.add_load_balancer(ip_id: server.first_ip['id'],
   load_balancer_id: load_balancer.id)
 
 # Wait for load balancer to be added
-puts "\nAdding load balancer to new server IP...\n"
-server.wait_for
+puts "\nAdding load balancer to server IP...\n"
+puts server.wait_for
 
 
 
 ### Add the firewall policy to the new IP
-response = server.add_firewall(ip_id: new_ip,
+response = server.add_firewall(ip_id: server.first_ip['id'],
   firewall_id: firewall.id)
 
 # Wait for firewall policy to be added
-puts "\nAdding firewall policy to new server IP...\n"
-server.wait_for
+puts "\nAdding firewall policy to server IP...\n"
+puts server.wait_for
 puts "\nEverything looks good!"
 
 
@@ -99,15 +86,15 @@ puts "\nEverything looks good!"
 puts "\nLet's clean up the mess we just made.\n"
 
 puts "\nDeleting server...\n"
-response = server.delete
-puts "Success!\n"
-
-puts "\nDeleting load balancer...\n"
-response = load_balancer.delete
+server.delete
 puts "Success!\n"
 
 puts "\nDeleting firewall policy...\n"
-response = firewall.delete
+firewall.delete
+puts "Success!\n"
+
+puts "\nDeleting load balancer...\n"
+load_balancer.delete
 puts "Success!\n"
 
 puts "\nAll done!\n"

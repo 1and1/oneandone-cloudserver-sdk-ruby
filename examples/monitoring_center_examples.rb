@@ -1,10 +1,3 @@
-require_relative 'oneandone'
-
-OneAndOne.start('<API-TOKEN>')
-
-
-
-
 # List all usages and alerts of monitoring servers
 monitoring_center = OneAndOne::MonitoringCenter.new()
 

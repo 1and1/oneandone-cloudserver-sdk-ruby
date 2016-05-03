@@ -1,10 +1,3 @@
-require_relative 'oneandone'
-
-OneAndOne.start('<API-TOKEN>')
-
-
-
-
 # List all images on your account
 image = OneAndOne::Image.new()
 

@@ -1,10 +1,3 @@
-require_relative 'oneandone'
-
-OneAndOne.start('<API-TOKEN>')
-
-
-
-
 # List all DVD's on your account
 dvd = OneAndOne::Dvd.new()
 

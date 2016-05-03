@@ -1,7 +1,7 @@
 module OneAndOne
 
   
-  class Image
+  class Vpn
 
     
     attr_accessor :id
@@ -37,7 +37,7 @@ module OneAndOne
       params = OneAndOne.clean_hash(keyword_args)
 
       # Build URL
-      path = OneAndOne.build_url('/images')
+      path = OneAndOne.build_url('/vpns')
 
       # Perform request
       response = @connection.request(:method => :get,
@@ -54,13 +54,13 @@ module OneAndOne
     end
 
 
-    def get(image_id: @id)
+    def get(vpn_id: @id)
 
-      # If user passed in image ID, reassign
-      @id = image_id
+      # If user passed in vpn ID, reassign
+      @id = vpn_id
 
       # Build URL
-      path = OneAndOne.build_url("/images/#{@id}")
+      path = OneAndOne.build_url("/vpns/#{@id}")
 
       # Perform request
       response = @connection.request(:method => :get,
@@ -82,26 +82,23 @@ module OneAndOne
     end
 
 
-    def create(server_id: nil, name: nil, description: nil, frequency: nil,
-      num_images: nil)
+    def create(name: nil, description: nil, datacenter_id: nil)
 
       # Build POST body
-      new_image = {
-        'server_id' => server_id,
+      new_vpn = {
         'name' => name,
         'description' => description,
-        'frequency' => frequency,
-        'num_images' => num_images
+        'datacenter_id' => datacenter_id
       }
 
       # Clean out null keys in POST body
-      body = OneAndOne.clean_hash(new_image)
+      body = OneAndOne.clean_hash(new_vpn)
 
       # Stringify the POST body
       string_body = body.to_json
 
       # Build URL
-      path = OneAndOne.build_url('/images')
+      path = OneAndOne.build_url('/vpns')
 
       # Perform request
       response = @connection.request(:method => :post,
@@ -115,7 +112,7 @@ module OneAndOne
       #JSON-ify the response string
       json = JSON.parse(response.body)
 
-      # Save new image ID to Image instance
+      # Save new vpn ID to Vpn instance
       @id = json['id']
       @specs = json
 
@@ -125,26 +122,25 @@ module OneAndOne
     end
 
 
-    def modify(image_id: @id, name: nil, description: nil, frequency: nil)
+    def modify(vpn_id: @id, name: nil, description: nil)
 
-      # If user passed in image ID, reassign
-      @id = image_id
+      # If user passed in vpn ID, reassign
+      @id = vpn_id
 
       # Build PUT body
-      image_specs = {
+      vpn_specs = {
         'name' => name,
-        'description' => description,
-        'frequency' => frequency
+        'description' => description
       }
 
       # Clean out null keys in PUT body
-      body = OneAndOne.clean_hash(image_specs)
+      body = OneAndOne.clean_hash(vpn_specs)
 
       # Stringify the PUT body
       string_body = body.to_json
 
       # Build URL
-      path = OneAndOne.build_url("/images/#{@id}")
+      path = OneAndOne.build_url("/vpns/#{@id}")
 
       # Perform Request
       response = @connection.request(:method => :put,
@@ -161,16 +157,38 @@ module OneAndOne
     end
 
 
-    def delete(image_id: @id)
+    def delete(vpn_id: @id)
 
-      # If user passed in image ID, reassign
-      @id = image_id
+      # If user passed in vpn ID, reassign
+      @id = vpn_id
 
       # Build URL
-      path = OneAndOne.build_url("/images/#{@id}")
+      path = OneAndOne.build_url("/vpns/#{@id}")
 
       # Perform request
       response = @connection.request(:method => :delete,
+        :path => path,
+        :headers => $header)
+
+      # Check response status
+      OneAndOne.check_response(response.body, response.status)
+
+      #JSON-ify the response string
+      JSON.parse(response.body)
+
+    end
+
+
+    def download_config(vpn_id: @id)
+
+      # If user passed in vpn ID, reassign
+      @id = vpn_id
+
+      # Build URL
+      path = OneAndOne.build_url("/vpns/#{@id}/configuration_file")
+
+      # Perform request
+      response = @connection.request(:method => :get,
         :path => path,
         :headers => $header)
 
@@ -196,19 +214,19 @@ module OneAndOne
       # Capture start time
       start = Time.now
 
-      # Poll image and check initial state
+      # Poll VPN and check initial state
       initial_response = get
-      image_state = initial_response['state']
+      vpn_state = initial_response['state']
 
-      # Keep polling the image's state until good
-      until $good_states.include? image_state
+      # Keep polling the VPN's state until good
+      until $good_states.include? vpn_state
 
         # Wait 15 seconds before polling again
         sleep interval
 
-        # Check image state again
+        # Check VPN state again
         current_response = get
-        image_state = current_response['state']
+        vpn_state = current_response['state']
 
         # Calculate current duration and check for timeout
         duration = (Time.now - start) / 60

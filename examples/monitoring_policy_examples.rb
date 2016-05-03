@@ -1,10 +1,3 @@
-require_relative 'oneandone'
-
-OneAndOne.start('<API-TOKEN>')
-
-
-
-
 # List all monitoring policies on your account
 monitoring_policy = OneAndOne::MonitoringPolicy.new()
 

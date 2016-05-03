@@ -13,6 +13,7 @@ This guide will show you how to programmatically use the 1&amp;1 library to perf
 - [Operations](#operations)
   - [Using the Module](#using-the-module)
   - [Creating a Server](#creating-a-server)
+  - [Creating a Server with SSH Key Access](#creating-a-server-with-ssh-key-access)
   - [Creating a Firewall Policy](#creating-a-firewall-policy)
   - [Creating a Load Balancer](#creating-a-load-balancer)
   - [Creating a Monitoring Policy](#creating-a-monitoring-policy)
@@ -53,7 +54,7 @@ OneAndOne.start('<API-TOKEN>')
 
 ### Using the Module
 
-Official 1&amp;1 REST API Documentation: <a href='https://cloudpanel-api.1and1.com/documentation/v1/#' target='_blank'>https://cloudpanel-api.1and1.com/documentation/v1/#</a>
+Official 1&amp;1 REST API Documentation: <a href='https://cloudpanel-api.1and1.com/documentation/1and1/v1/en/documentation.html' target='_blank'>https://cloudpanel-api.1and1.com/documentation/v1/#</a>
 
 The following examples are meant to give you a general overview of some of the things you can do with the 1&amp;1 Ruby SDK.  For a detailed list of all methods and functionality, please visit the <a href='docs/reference.md'>reference.md</a> file.
 
@@ -89,6 +90,44 @@ response = server.create(name: 'Example Server',
 
 puts JSON.pretty_generate(response)
 ```
+
+
+### Creating a Server with SSH Key Access
+
+```
+require 'oneandone'
+
+OneAndOne.start('<API-TOKEN>') # Init module with API Key
+
+
+# Instantiate Server Object
+server = OneAndOne::Server.new
+
+# Create HDD's
+hdd1 = {
+  'size' => 120,
+  'is_main' => true
+}
+
+hdds = [hdd1]
+
+# Assign your public key to a variable
+pub_key = '<PUB-KEY>'
+
+# Perform Request
+response = server.create(name: 'Example Server',
+                         vcore: 1,
+                         cores_per_processor: 1,
+                         ram: 1,
+                         appliance_id: '<IMAGE-ID>',
+                         hdds: hdds,
+                         rsa_key: pub_key)
+
+puts JSON.pretty_generate(response)
+```
+**Note:** You may then SSH into your server by executing the following command in terminal 
+
+`ssh –i <path_to_private_key_file> root@SERVER_IP`
 
 
 ### Creating a Firewall Policy
@@ -353,11 +392,9 @@ response = image.list
 
 ## Example App
 
-This simple app creates a load balancer, firewall policy, and server.  It then creates a new IP for the server and adds the load balancer and firewall policy to that IP.
+This simple app creates a load balancer, firewall policy, and server.  It then adds the load balancer and firewall policy to the server's initial IP address.  You can access a server's initial IP by using the `first_ip` attribute on the Server class object, as seen in the example below.
 
-Use the `wait_for` method to chain together multiple actions that take some time to deploy.  See the <a href='docs/reference.md'>reference.md</a> file for a more detailed description of the `wait_for` method.
-
-The source code for the Example App with some additional markup can be found <a href='examples/example_app.rb'>here</a>.
+The source code for the Example App can be found <a href='examples/example_app.rb'>here</a>.
 ```
 require 'oneandone'
 
@@ -377,18 +414,13 @@ rule1 = {
 
 rules = [rule1]
 
-lb1 = load_balancer.create(name: 'Example App LB',
-                           description: 'Example Desc',
-                           health_check_test: 'TCP',
-                           health_check_interval: 40,
-                           persistence: true,
-                           persistence_time: 1200,
-                           method: 'ROUND_ROBIN',
-                           rules: rules)
+lb1 = load_balancer.create(name: 'Example App LB', description: 'Example Desc',
+  health_check_test: 'TCP', health_check_interval: 40, persistence: true,
+  persistence_time: 1200, method: 'ROUND_ROBIN', rules: rules)
 
 # Wait for load balancer to deploy
-puts "Creating load balancer..."
-load_balancer.wait_for
+puts "\nCreating load balancer...\n"
+puts load_balancer.wait_for
 
 
 
@@ -404,81 +436,64 @@ rule1 = {
 
 rules = [rule1]
 
-fp1 = firewall.create(name: 'Example App Firewall',
-                      description: 'Example Desc',
-                      rules: rules)
+fp1 = firewall.create(name: 'Example App Firewall', description: 'Example Desc',
+  rules: rules)
 
 # Wait for firewall policy to deploy
-puts "Creating firewall policy..."
-firewall.wait_for
+puts "\nCreating firewall policy...\n"
+puts firewall.wait_for
 
 
 
 ### Create a server
 server = OneAndOne::Server.new
 
-hdd1 = {
-  'size' => 120,
-  'is_main' => true
-}
-
-hdds = [hdd1]
-
 server1 = server.create(name: 'Example App Server',
-                        vcore: 1,
-                        cores_per_processor: 1,
-                        ram: 1,
-                        appliance_id: '<IMAGE-ID>',
-                        hdds: hdds)
+  fixed_instance_id: '65929629F35BBFBA63022008F773F3EB',
+  appliance_id: '6C902E5899CC6F7ED18595EBEB542EE1',
+  datacenter_id: '5091F6D8CBFEF9C26ACE957C652D5D49')
 
 # Wait for server to deploy
-puts "Creating server..."
-server.wait_for
+puts "\nCreating server...\n"
+puts server.wait_for
 
 
 
-### Add a new IP to the server
-puts "Adding an IP to the server..."
-response = server.add_ip
-new_ip = response['ips'][1]['id']
-
-
-
-### Add the load balancer to the new IP
-response = server.add_load_balancer(ip_id: new_ip,
-                                    load_balancer_id: load_balancer.id)
+### Add the load balancer to the server's initial IP
+response = server.add_load_balancer(ip_id: server.first_ip['id'],
+  load_balancer_id: load_balancer.id)
 
 # Wait for load balancer to be added
-puts "Adding load balancer to new server IP..."
-server.wait_for
+puts "\nAdding load balancer to server IP...\n"
+puts server.wait_for
 
 
 
-### Add the firewall policy to the new IP
-response = server.add_firewall(ip_id: new_ip,
-                               firewall_id: firewall.id)
+### Add the firewall policy to the server's initial IP
+response = server.add_firewall(ip_id: server.first_ip['id'],
+  firewall_id: firewall.id)
 
 # Wait for firewall policy to be added
-puts "Adding firewall policy to new server IP..."
-server.wait_for
-puts "Everything looks good!"
+puts "\nAdding firewall policy to server IP...\n"
+puts server.wait_for
+puts "\nEverything looks good!"
 
 
 
 ### Cleanup
-puts "Let's clean up the mess we just made."
+puts "\nLet's clean up the mess we just made.\n"
 
-puts "Deleting server..."
-response = server.delete
-puts "Success!"
+puts "\nDeleting server...\n"
+server.delete
+puts "Success!\n"
 
-puts "Deleting load balancer..."
-response = load_balancer.delete
-puts "Success!"
+puts "\nDeleting firewall policy...\n"
+firewall.delete
+puts "Success!\n"
 
-puts "Deleting firewall policy..."
-response = firewall.delete
-puts "Success!"
+puts "\nDeleting load balancer...\n"
+load_balancer.delete
+puts "Success!\n"
 
-puts "All done!"
+puts "\nAll done!\n"
 ```

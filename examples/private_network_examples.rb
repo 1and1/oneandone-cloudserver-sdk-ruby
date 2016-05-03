@@ -1,10 +1,3 @@
-require_relative 'oneandone'
-
-OneAndOne.start('<API-TOKEN>')
-
-
-
-
 # List all private networks on your account
 private_network = OneAndOne::PrivateNetwork.new()
 

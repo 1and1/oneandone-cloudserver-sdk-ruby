@@ -49,17 +49,18 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
 
-    def create(reverse_dns: nil, type: nil)
+    def create(reverse_dns: nil, type: nil, datacenter_id: nil)
 
       # Build POST body
       new_ip = {
         'reverse_dns' => reverse_dns,
-        'type' => type
+        'type' => type,
+        'datacenter_id' => datacenter_id
       }
 
       # Clean out null keys in POST body
@@ -112,6 +113,12 @@ module OneAndOne
       #JSON-ify the response string
       json = JSON.parse(response.body)
 
+      # Reload specs attribute
+      @specs = json
+
+      # If all good, return JSON
+      json
+
     end
 
 
@@ -144,7 +151,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -166,7 +173,15 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
+
+    end
+
+
+    def reload
+
+      # This reload fx is just a wrapper for the get fx
+      get
 
     end
 

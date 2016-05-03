@@ -49,20 +49,21 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
 
     def create(name: nil, description: nil, network_address: nil,
-      subnet_mask: nil)
+      subnet_mask: nil, datacenter_id: nil)
 
       # Build POST body
       new_private_network = {
         'name' => name,
         'description' => description,
         'network_address' => network_address,
-        'subnet_mask' => subnet_mask
+        'subnet_mask' => subnet_mask,
+        'datacenter_id' => datacenter_id
       }
 
       # Clean out null keys in POST body
@@ -115,6 +116,12 @@ module OneAndOne
       #JSON-ify the response string
       json = JSON.parse(response.body)
 
+      # Reload specs attribute
+      @specs = json
+
+      # If all good, return JSON
+      json
+
     end
 
 
@@ -151,7 +158,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -173,7 +180,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -195,7 +202,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -217,7 +224,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -239,7 +246,7 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
@@ -273,36 +280,49 @@ module OneAndOne
       OneAndOne.check_response(response.body, response.status)
 
       #JSON-ify the response string
-      json = JSON.parse(response.body)
+      JSON.parse(response.body)
 
     end
 
 
-    def wait_for
+    def reload
 
-      # Check initial status and save server state
+      # This reload fx is just a wrapper for the get fx
+      get
+
+    end
+
+
+    def wait_for(timeout: 25, interval: 5)
+
+      # Capture start time
+      start = Time.now
+
+      # Poll private network and check initial state
       initial_response = get
       private_network_state = initial_response['state']
 
-      # Keep polling the server's state until good
-      while not $good_states.include? private_network_state
+      # Keep polling the private network's state until good
+      until $good_states.include? private_network_state
 
         # Wait 5 seconds before polling again
-        sleep 5
+        sleep interval
 
-        # Check server state again
+        # Check private network state again
         current_response = get
         private_network_state = current_response['state']
 
-        # Inform user when state is good
-        if $good_states.include? private_network_state
-          puts "\nSuccess!"
-          puts "Private Network state: #{private_network_state} \n"
+        # Calculate current duration and check for timeout
+        duration = (Time.now - start) / 60
+        if duration > timeout
+          puts "The operation timed out after #{timeout} minutes.\n"
+          return
         end
 
       end
 
-      nil
+      # Return Duration
+      {:duration => duration}
 
     end
 

@@ -18,4 +18,10 @@ module OneAndOne
   require_relative '1and1/usage'
   require_relative '1and1/server_appliance'
   require_relative '1and1/dvd'
+  require_relative '1and1/datacenter'
+  require_relative '1and1/pricing'
+  require_relative '1and1/ping'
+  require_relative '1and1/ping_auth'
+  require_relative '1and1/vpn'
+  require_relative '1and1/role'
 end
