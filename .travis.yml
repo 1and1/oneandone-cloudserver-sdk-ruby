@@ -1,0 +1,28 @@
+language: ruby
+
+rvm:
+  - 2.0
+  - 2.1
+  - 2.2
+
+gemfile:
+  - Gemfile
+
+matrix:
+  fast_finish: true
+
+script:
+  - ruby test/test_mock_server.rb
+  - ruby test/test_mock_image.rb
+  - ruby test/test_mock_firewall.rb
+  - ruby test/test_mock_shared_storage.rb
+  - ruby test/test_mock_load_balancer.rb
+  - ruby test/test_mock_monitoring_policy.rb
+  - ruby test/test_mock_public_ip.rb
+  - ruby test/test_mock_private_network.rb
+  - ruby test/test_mock_dvd.rb
+  - ruby test/test_mock_log.rb
+  - ruby test/test_mock_monitoring_center.rb
+  - ruby test/test_mock_server_appliance.rb
+  - ruby test/test_mock_usage.rb
+  - ruby test/test_mock_user.rb

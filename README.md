@@ -36,14 +36,16 @@ Before you begin you will need to have signed-up for a 1&amp;1 account. The cred
 
 You can install the latest stable version using:
 
-`$ gem install 1and1`
+```bash
+$ gem install 1and1
+```
 
 
 ### Authentication
 
 Connecting to 1&amp;1 is handled by first setting up your authentication.  Start your application by initializing the module with your API token.
 
-```
+```ruby
 require 'oneandone'
 
 OneAndOne.start('<API-TOKEN>')
@@ -54,7 +56,7 @@ OneAndOne.start('<API-TOKEN>')
 
 ### Using the Module
 
-Official 1&amp;1 REST API Documentation: <a href='https://cloudpanel-api.1and1.com/documentation/1and1/v1/en/documentation.html' target='_blank'>https://cloudpanel-api.1and1.com/documentation/v1/#</a>
+Official 1&amp;1 REST API Documentation: <a href='https://cloudpanel-api.1and1.com/documentation/1and1/v1/en/documentation.html' target='_blank'>https://cloudpanel-api.1and1.com/documentation/1and1/v1/en/documentation.html</a>
 
 The following examples are meant to give you a general overview of some of the things you can do with the 1&amp;1 Ruby SDK.  For a detailed list of all methods and functionality, please visit the <a href='docs/reference.md'>reference.md</a> file.
 
@@ -63,7 +65,7 @@ The following examples are meant to give you a general overview of some of the t
 
 ### Creating a Server
 
-```
+```ruby
 require 'oneandone'
 
 OneAndOne.start('<API-TOKEN>') # Init module with API Key
@@ -94,7 +96,7 @@ puts JSON.pretty_generate(response)
 
 ### Creating a Server with SSH Key Access
 
-```
+```ruby
 require 'oneandone'
 
 OneAndOne.start('<API-TOKEN>') # Init module with API Key
@@ -132,7 +134,7 @@ puts JSON.pretty_generate(response)
 
 ### Creating a Firewall Policy
 
-```
+```ruby
 require 'oneandone'
 
 OneAndOne.start('<API-TOKEN>') # Init module with API Key
@@ -162,7 +164,7 @@ puts JSON.pretty_generate(response)
 
 ### Creating a Load Balancer
 
-```
+```ruby
 require 'oneandone'
 
 OneAndOne.start('<API-TOKEN>') # Init module with API Key
@@ -197,7 +199,7 @@ puts JSON.pretty_generate(response)
 
 ### Creating a Monitoring Policy
 
-```
+```ruby
 require 'oneandone'
 
 OneAndOne.start('<API-TOKEN>') # Init module with API Key
@@ -291,7 +293,7 @@ puts JSON.pretty_generate(response)
 ```
 
 Then, add a server or two:
-```
+```ruby
 # Add Servers
 server1 = '<SERVER-ID>'
 server2 = '<SERVER-ID>'
@@ -310,7 +312,7 @@ puts JSON.pretty_generate(response)
 1&amp;1 allows users to dynamically update cores, memory, and disk independently of each other. This removes the restriction of needing to upgrade to the next size up to receive an increase in memory. You can now simply increase the instances memory keeping your costs in-line with your resource needs.
 
 The following code illustrates how you can update cores and memory:
-```
+```ruby
 require 'oneandone'
 
 OneAndOne.start('<API-TOKEN>') # Init module with API Key
@@ -328,7 +330,7 @@ puts JSON.pretty_generate(response)
 ```
 
 This is how you would update a server disk's size:
-```
+```ruby
 require 'oneandone'
 
 OneAndOne.start('<API-TOKEN>') # Init module with API Key
@@ -364,7 +366,7 @@ Generating a list of resources is fairly straight forward.  Every class in the m
 
 
 **Here are a few examples of how you would list resources:**
-```
+```ruby
 require 'oneandone'
 
 OneAndOne.start('<API-TOKEN>') # Init module with API Key
@@ -395,7 +397,7 @@ response = image.list
 This simple app creates a load balancer, firewall policy, and server.  It then adds the load balancer and firewall policy to the server's initial IP address.  You can access a server's initial IP by using the `first_ip` attribute on the Server class object, as seen in the example below.
 
 The source code for the Example App can be found <a href='examples/example_app.rb'>here</a>.
-```
+```ruby
 require 'oneandone'
 
 OneAndOne.start('<API-TOKEN>') # Init module with API key
