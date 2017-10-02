@@ -3,7 +3,7 @@ module OneAndOne
 
   class Server
 
-    
+
     attr_accessor :id
     attr_accessor :first_ip
     attr_accessor :first_password
