@@ -126,7 +126,8 @@ module OneAndOne
         'ip_id' => ip_id,
         'load_balancer_id' => load_balancer_id,
         'monitoring_policy_id' => monitoring_policy_id,
-        'public_key' => public_key
+        'public_key' => public_key,
+        'server_type' => server_type
       }
 
       # Clean out null keys in POST body
