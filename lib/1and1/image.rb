@@ -83,7 +83,7 @@ module OneAndOne
 
 
     def create(server_id: nil, name: nil, description: nil, frequency: nil,
-      num_images: nil)
+      num_images: nil, source: nil, url: nil, os_id: nil, type: nil)
 
       # Build POST body
       new_image = {
@@ -91,7 +91,11 @@ module OneAndOne
         'name' => name,
         'description' => description,
         'frequency' => frequency,
-        'num_images' => num_images
+        'num_images' => num_images,
+        'source' => source,
+        'url' => url,
+        'os_id' => os_id,
+        'type' => type
       }
 
       # Clean out null keys in POST body
