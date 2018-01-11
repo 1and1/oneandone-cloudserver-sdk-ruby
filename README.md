@@ -17,6 +17,7 @@ This guide will show you how to programmatically use the 1&amp;1 library to perf
   - [Creating a Firewall Policy](#creating-a-firewall-policy)
   - [Creating a Load Balancer](#creating-a-load-balancer)
   - [Creating a Monitoring Policy](#creating-a-monitoring-policy)
+  - [Creating an SSH Key](#creating-an-ssh-key)
   - [Updating Server Cores, Memory, and Disk](#updating-server-cores,-memory,-and-disk)
   - [Listing Servers, Images, Shared Storages, and More](#listing-servers,-images,-shared-storages,-and-more )
 - [Example App](#example-app)
@@ -304,6 +305,46 @@ servers = [server1, server2]
 
 # Perform Request
 response = monitoring_policy.add_servers(servers: servers)
+
+puts JSON.pretty_generate(response)
+```
+
+
+### Creating an SSH Key
+
+```ruby
+require 'oneandone'
+
+OneAndOne.start('<API-TOKEN>') # Init module with API Key
+
+
+# Instantiate SshKey Object
+ssh_key = OneAndOne::SshKey.new
+
+ssh_key.create(name: 'Test SSH Key',
+               description: 'Test Description',
+               public_key: '<PUBLIC-KEY>')
+
+# The created ssh key can now be used when creating a server
+# Instantiate Server Object
+server = OneAndOne::Server.new
+
+# Create HDD's
+hdd1 = {
+  'size' => 120,
+  'is_main' => true
+}
+
+hdds = [hdd1]
+
+# Perform Request
+response = server.create(name: 'Example rssh Server',
+                         vcore: 1,
+                         cores_per_processor: 1,
+                         ram: 1,
+                         appliance_id: '<IMAGE-ID>',
+                         hdds: hdds,
+                         public_key: ssh_key.id)
 
 puts JSON.pretty_generate(response)
 ```
