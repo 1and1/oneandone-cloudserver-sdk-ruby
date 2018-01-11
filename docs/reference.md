@@ -24,6 +24,7 @@
 - [Ping](#ping)
 - [Ping Auth](#ping-auth)
 - [VPN's](#vpn)
+- [Block Storages](#block-storages)
 - [Roles](#roles)
 
 
@@ -2294,6 +2295,105 @@ response = vpn.download_config
 OR
 
 response = vpn.download_config(vpn_id: '<VPN-ID>')
+```
+
+
+
+# <a name="block-storages"></a>Block Storages
+
+Get started by instantiating a `BlockStorage` object:
+
+```
+block_storage = OneAndOne::BlockStorage.new
+```
+
+
+
+**List all available block storages on your account:**
+
+```
+response = block_storage.list
+```
+
+
+**Retrieve a single block storage:**
+
+```
+response = block_storage.get
+
+OR
+
+response = block_storage.get(block_storage_id: '<BLOCK-STORAGE-ID>')
+```
+
+
+**Create a block storage:**
+
+```
+response = block_storage.create(name: 'My block storage',
+                                description: 'My block storage description',
+                                size: 20,
+                                datacenter_id: '<DATACENTER-ID>')
+```
+
+
+**Modify a block storage:**
+
+```
+response = block_storage.modify(name: 'New Name')
+
+OR
+
+response = block_storage.modify(block_storage_id: '<BLOCK-STORAGE-ID>',
+                                name: 'New Name',
+                                description: 'New Description')
+```
+
+
+**Delete a block storage:**
+
+```
+response = block_storage.delete
+
+OR
+
+response = block_storage.delete(block_storage_id: '<BLOCK-STORAGE-ID>')
+```
+
+
+
+**Attach a server to a block storage:**
+
+```
+response = block_storage.attach_server(server_id: '<SERVER-ID>')
+
+OR
+
+response = block_storage.attach_server(block_storage_id: '<BLOCK-STORAGE-ID>', server_id: '<SERVER-ID>')
+```
+
+
+
+**Detach a server from a block storage:**
+
+```
+response = block_storage.detach_server
+
+OR
+
+response = block_storage.attach_server(block_storage_id: '<BLOCK-STORAGE-ID>')
+```
+
+
+
+**Retrieve a server attached to a block storage:**
+
+```
+response = block_storage.server
+
+OR
+
+response = block_storage.server(block_storage_id: '<BLOCK-STORAGE-ID>')
 ```
 
 
