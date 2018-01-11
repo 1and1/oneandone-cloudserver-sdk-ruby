@@ -25,6 +25,7 @@
 - [Ping Auth](#ping-auth)
 - [VPN's](#vpn)
 - [Roles](#roles)
+- [SSH Keys](#ssh-keys)
 
 
 # <a name="wait-for"></a>"wait_for"
@@ -2444,4 +2445,64 @@ response = role.clone(name: 'Role Clone')
 OR
 
 response = role.clone(role_id: '<ROLE-ID>', name: 'Role Clone')
+```
+
+
+
+# <a name="ssh-keys"></a>SSH Keys
+
+Get started by instantiating an `SshKey` object:
+
+```
+ssh_key = OneAndOne::SshKey.new
+```
+
+
+
+**List all available ssh keys on your account:**
+
+```
+response = ssh_key.list
+```
+
+
+**Retrieve a single ssh key:**
+
+```
+response = ssh_key.get
+
+OR
+
+response = ssh_key.get(ssh_key_id: '<SSH-KEY-ID>')
+```
+
+
+**Create an ssh key:**
+
+```
+response = ssh_key.create(name: 'Test SSH Key',
+                          description: 'Test Description',
+                          public_key: '<PUBLIC-KEY>')
+```
+
+
+**Modify an ssh key:**
+
+```
+response = ssh_key.modify(name: 'New Name', description: 'New Description')
+
+OR
+
+response = ssh_key.modify(ssh_key_id: '<SSH-KEY-ID>', name: 'New Name', description: 'New Description')
+```
+
+
+**Delete an ssh key:**
+
+```
+response = ssh_key.delete
+
+OR
+
+response = ssh_key.delete(ssh_key_id: '<SSH-KEY-ID>')
 ```

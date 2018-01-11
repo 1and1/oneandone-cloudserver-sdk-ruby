@@ -60,7 +60,7 @@ module OneAndOne
       new_storage = {
         'name' => name,
         'description' => description,
-        'public_key' => size
+        'public_key' => public_key
       }
 
       # Clean out null keys in POST body
