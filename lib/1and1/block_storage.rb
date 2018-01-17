@@ -216,28 +216,6 @@ module OneAndOne
     end
 
 
-    def server(block_storage_id: @id)
-
-      # If user passed in block_storage ID, reassign
-      @id = block_storage_id
-
-      # Build URL
-      path = OneAndOne.build_url("/block_storages/#{@id}/server")
-
-      # Perform request
-      response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
-
-      # Check response status
-      OneAndOne.check_response(response.body, response.status)
-
-      #JSON-ify the response string
-      JSON.parse(response.body)
-
-    end
-
-
     def detach_server(block_storage_id: @id)
 
       # If user passed in block_storage ID, reassign

@@ -122,10 +122,10 @@ class TestBlockStorage < Minitest::Test
   end
 
 
-  def test_attach_server
+  def test_attach_block_storage
 
     # Read in mock JSON
-    file = File.read('mock-api/attach-server-block-storage.json')
+    file = File.read('mock-api/attach-block-storage.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -143,31 +143,10 @@ class TestBlockStorage < Minitest::Test
   end
 
 
-  def test_server
+  def test_detach_block_storage
 
     # Read in mock JSON
-    file = File.read('mock-api/get-block-storage-server.json')
-    data = JSON.parse(file)
-
-    # Create stub and perform call
-    Excon.stub({:method => :get, :path => "/v1/block_storages/#{data['id']}/server"},
-      {:body => JSON.generate(data), :status => 200})
-    
-    response = @block_storage.server(block_storage_id: "#{data['id']}")
-
-    # Assertions
-    assert_equal response['id'], data['id']
-
-    # Clear out stubs
-    Excon.stubs.clear
-
-  end
-
-
-  def test_detach_server
-
-    # Read in mock JSON
-    file = File.read('mock-api/detach-server-block-storage.json')
+    file = File.read('mock-api/detach-block-storage.json')
     data = JSON.parse(file)
 
     # Create stub and perform call

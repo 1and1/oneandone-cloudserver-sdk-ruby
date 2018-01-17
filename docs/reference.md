@@ -2363,7 +2363,7 @@ response = block_storage.delete(block_storage_id: '<BLOCK-STORAGE-ID>')
 
 
 
-**Attach a server to a block storage:**
+**Attach a block storage to a server:**
 
 ```
 response = block_storage.attach_server(server_id: '<SERVER-ID>')
@@ -2375,26 +2375,14 @@ response = block_storage.attach_server(block_storage_id: '<BLOCK-STORAGE-ID>', s
 
 
 
-**Detach a server from a block storage:**
+**Detach a block storage from a server:**
 
 ```
 response = block_storage.detach_server
 
 OR
 
-response = block_storage.attach_server(block_storage_id: '<BLOCK-STORAGE-ID>')
-```
-
-
-
-**Retrieve a server attached to a block storage:**
-
-```
-response = block_storage.server
-
-OR
-
-response = block_storage.server(block_storage_id: '<BLOCK-STORAGE-ID>')
+response = block_storage.detach_server(block_storage_id: '<BLOCK-STORAGE-ID>')
 ```
 
 

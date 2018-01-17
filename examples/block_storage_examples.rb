@@ -31,20 +31,14 @@ response = block_storage.modify(block_storage_id: '<BLOCK-STORAGE-ID>',
 puts JSON.pretty_generate(response)
 
 
-# Attach a server to a block storage
+# Attach a block storage to a server
 response = block_storage.attach_server(block_storage_id: '<BLOCK-STORAGE-ID>',
                                        server_id: '<SERVER-ID>')
 
 puts JSON.pretty_generate(response)
 
 
-# Retrieve information about a block storage's server
-response = block_storage.server(block_storage_id: '<BLOCK-STORAGE-ID>')
-
-puts JSON.pretty_generate(response)
-
-
-# Detach a server from a block storage
+# Detach a block storage from a server
 response = block_storage.detach_server(block_storage_id: '<BLOCK-STORAGE-ID>')
 
 puts JSON.pretty_generate(response)
