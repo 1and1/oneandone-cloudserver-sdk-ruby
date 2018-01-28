@@ -62,7 +62,7 @@ module OneAndOne
       vcore: nil, cores_per_processor: nil, ram: nil, appliance_id: nil,
       datacenter_id: nil, hdds: nil, password: nil, power_on: nil,
       firewall_id: nil, ip_id: nil, load_balancer_id: nil,
-      monitoring_policy_id: nil)
+      monitoring_policy_id: nil, public_key: nil)
 
       # Build hardware hash
       hardware_params = {
@@ -89,7 +89,8 @@ module OneAndOne
         'firewall_policy_id' => firewall_id,
         'ip_id' => ip_id,
         'load_balancer_id' => load_balancer_id,
-        'monitoring_policy_id' => monitoring_policy_id
+        'monitoring_policy_id' => monitoring_policy_id,
+        'public_key' => public_key
       }
 
       # Clean out null keys in POST body

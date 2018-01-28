@@ -24,7 +24,9 @@
 - [Ping](#ping)
 - [Ping Auth](#ping-auth)
 - [VPN's](#vpn)
+- [Block Storages](#block-storages)
 - [Roles](#roles)
+- [SSH Keys](#ssh-keys)
 
 
 # <a name="wait-for"></a>"wait_for"
@@ -2298,6 +2300,93 @@ response = vpn.download_config(vpn_id: '<VPN-ID>')
 
 
 
+# <a name="block-storages"></a>Block Storages
+
+Get started by instantiating a `BlockStorage` object:
+
+```
+block_storage = OneAndOne::BlockStorage.new
+```
+
+
+
+**List all available block storages on your account:**
+
+```
+response = block_storage.list
+```
+
+
+**Retrieve a single block storage:**
+
+```
+response = block_storage.get
+
+OR
+
+response = block_storage.get(block_storage_id: '<BLOCK-STORAGE-ID>')
+```
+
+
+**Create a block storage:**
+
+```
+response = block_storage.create(name: 'My block storage',
+                                description: 'My block storage description',
+                                size: 20,
+                                datacenter_id: '<DATACENTER-ID>')
+```
+
+
+**Modify a block storage:**
+
+```
+response = block_storage.modify(name: 'New Name')
+
+OR
+
+response = block_storage.modify(block_storage_id: '<BLOCK-STORAGE-ID>',
+                                name: 'New Name',
+                                description: 'New Description')
+```
+
+
+**Delete a block storage:**
+
+```
+response = block_storage.delete
+
+OR
+
+response = block_storage.delete(block_storage_id: '<BLOCK-STORAGE-ID>')
+```
+
+
+
+**Attach a block storage to a server:**
+
+```
+response = block_storage.attach_server(server_id: '<SERVER-ID>')
+
+OR
+
+response = block_storage.attach_server(block_storage_id: '<BLOCK-STORAGE-ID>', server_id: '<SERVER-ID>')
+```
+
+
+
+**Detach a block storage from a server:**
+
+```
+response = block_storage.detach_server
+
+OR
+
+response = block_storage.detach_server(block_storage_id: '<BLOCK-STORAGE-ID>')
+```
+
+
+
 # <a name="roles"></a>Roles
 
 Get started by instantiating an `Role` object:
@@ -2444,4 +2533,64 @@ response = role.clone(name: 'Role Clone')
 OR
 
 response = role.clone(role_id: '<ROLE-ID>', name: 'Role Clone')
+```
+
+
+
+# <a name="ssh-keys"></a>SSH Keys
+
+Get started by instantiating an `SshKey` object:
+
+```
+ssh_key = OneAndOne::SshKey.new
+```
+
+
+
+**List all available ssh keys on your account:**
+
+```
+response = ssh_key.list
+```
+
+
+**Retrieve a single ssh key:**
+
+```
+response = ssh_key.get
+
+OR
+
+response = ssh_key.get(ssh_key_id: '<SSH-KEY-ID>')
+```
+
+
+**Create an ssh key:**
+
+```
+response = ssh_key.create(name: 'Test SSH Key',
+                          description: 'Test Description',
+                          public_key: '<PUBLIC-KEY>')
+```
+
+
+**Modify an ssh key:**
+
+```
+response = ssh_key.modify(name: 'New Name', description: 'New Description')
+
+OR
+
+response = ssh_key.modify(ssh_key_id: '<SSH-KEY-ID>', name: 'New Name', description: 'New Description')
+```
+
+
+**Delete an ssh key:**
+
+```
+response = ssh_key.delete
+
+OR
+
+response = ssh_key.delete(ssh_key_id: '<SSH-KEY-ID>')
 ```

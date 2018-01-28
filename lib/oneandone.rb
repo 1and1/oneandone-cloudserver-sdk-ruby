@@ -24,4 +24,6 @@ module OneAndOne
   require_relative '1and1/ping_auth'
   require_relative '1and1/vpn'
   require_relative '1and1/role'
+  require_relative '1and1/block_storage'
+  require_relative '1and1/ssh_keys'
 end
