@@ -17,6 +17,7 @@ This guide will show you how to programmatically use the 1&amp;1 library to perf
   - [Creating a Firewall Policy](#creating-a-firewall-policy)
   - [Creating a Load Balancer](#creating-a-load-balancer)
   - [Creating a Monitoring Policy](#creating-a-monitoring-policy)
+  - [Creating a Block Storage](#creating-a-block-storage)
   - [Creating an SSH Key](#creating-an-ssh-key)
   - [Updating Server Cores, Memory, and Disk](#updating-server-cores,-memory,-and-disk)
   - [Listing Servers, Images, Shared Storages, and More](#listing-servers,-images,-shared-storages,-and-more )
@@ -350,6 +351,27 @@ puts JSON.pretty_generate(response)
 ```
 
 
+### Creating a Block Storage
+
+```ruby
+require 'oneandone'
+
+OneAndOne.start('<API-TOKEN>') # Init module with API Key
+
+
+# Instantiate Block Storage Object
+block_storage = OneAndOne::BlockStorage.new
+
+response = block_storage.create(name: 'My block storage',
+                                description: 'My block storage description',
+                                size: 20,
+                                datacenter_id: '<DATACENTER-ID>',
+                                server_id: '<SERVER-ID')
+
+puts JSON.pretty_generate(response)
+```
+
+
 ### Updating Server Cores, Memory, and Disk
 
 1&amp;1 allows users to dynamically update cores, memory, and disk independently of each other. This removes the restriction of needing to upgrade to the next size up to receive an increase in memory. You can now simply increase the instances memory keeping your costs in-line with your resource needs.
@@ -431,6 +453,12 @@ response = server.list(q: 'My')
 image = OneAndOne::Image.new
 
 response = image.list
+
+
+# List all block storages on your account
+block_storage = OneAndOne::BlockStorage.new
+
+response = block_storage.list
 ```
 
 
