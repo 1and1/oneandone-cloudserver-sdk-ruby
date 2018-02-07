@@ -1,0 +1,58 @@
+[
+  {
+    "id": "148CE80B09ED769373921F31CEE85G2G",
+    "name": "Windows 64-bit Rescue-System",
+    "available_datacenters": [
+      "4EFAD5836CE43ACA502FD5B99BEE48GH",
+      "908DC2072407C94C8054610AD5A53C4D"
+    ],
+    "os": {
+      "name": "Other Windows",
+      "family": "Windows",
+      "subfamily": "WindowsDatacenter",
+      "architecture": 64
+    }
+  },
+  {
+    "id": "52670D91E8FB744FB8304B6D6EA1000F",
+    "name": "Linux 64-bit Rescue-System (debian/oldstable)",
+    "available_datacenters": [
+      "4EFAD5836CE43ACA502FD5B99BEE48GH",
+      "908DC2072407C94C8054610AD5A53C4D"
+    ],
+    "os": {
+      "name": "Other Linux",
+      "family": "Linux",
+      "subfamily": "OtherLinux",
+      "architecture": 64
+    }
+  },
+  {
+    "id": "B36BD02F7448CE912124ACF1718F5F34",
+    "name": "Linux 64-bit Rescue-System (debian/stable)",
+    "available_datacenters": [
+      "4EFAD5836CE43ACA502FD5B99BEE48GH",
+      "908DC2072407C94C8054610AD5A53C4D"
+    ],
+    "os": {
+      "name": "Other Linux",
+      "family": "Linux",
+      "subfamily": "OtherLinux",
+      "architecture": 64
+    }
+  },
+  {
+    "id": "5BD4A33F7464FFFD9A91AC52F173799B",
+    "name": "Linux 64-bit Rescue-System (debian/testing)",
+    "available_datacenters": [
+      "4EFAD5836CE43ACA502FD5B99BEE48GH",
+      "908DC2072407C94C8054610AD5A53C4D"
+    ],
+    "os": {
+      "name": "Other Linux",
+      "family": "Linux",
+      "subfamily": "OtherLinux",
+      "architecture": 64
+    }
+  }
+]
