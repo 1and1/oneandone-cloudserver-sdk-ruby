@@ -3,7 +3,7 @@ module OneAndOne
 
   class Server
 
-    
+
     attr_accessor :id
     attr_accessor :first_ip
     attr_accessor :first_password
@@ -45,9 +45,40 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header,
-        :query => params)
+                                     :path => path,
+                                     :headers => $header,
+                                     :query => params)
+
+      # Check response status
+      OneAndOne.check_response(response.body, response.status)
+
+      #JSON-ify the response string
+      JSON.parse(response.body)
+
+    end
+
+    def list_baremetal_models(page: nil, per_page: nil, sort: nil, q: nil, fields: nil)
+
+      # Build hash for query parameters
+      keyword_args = {
+        :page => page,
+        :per_page => per_page,
+        :sort => sort,
+        :q => q,
+        :fields => fields
+      }
+
+      # Clean out null query parameters
+      params = OneAndOne.clean_hash(keyword_args)
+
+      # Build URL
+      path = OneAndOne.build_url('/servers/baremetal_models')
+
+      # Perform request
+      response = @connection.request(:method => :get,
+                                     :path => path,
+                                     :headers => $header,
+                                     :query => params)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -62,7 +93,10 @@ module OneAndOne
       vcore: nil, cores_per_processor: nil, ram: nil, appliance_id: nil,
       datacenter_id: nil, hdds: nil, password: nil, power_on: nil,
       firewall_id: nil, ip_id: nil, load_balancer_id: nil,
-      monitoring_policy_id: nil, public_key: nil)
+      monitoring_policy_id: nil, public_key: nil, server_type: nil,
+      baremetal_model_id: nil)
+
+      server_type = 'cloud' if server_type.nil?
 
       # Build hardware hash
       hardware_params = {
@@ -72,6 +106,8 @@ module OneAndOne
         'ram' => ram,
         'hdds' => hdds
       }
+
+      hardware_params['baremetal_model_id'] = baremetal_model_id if server_type == 'baremetal'
 
       # Clean out null keys in hardware hash
       hardware = OneAndOne.clean_hash(hardware_params)
@@ -90,7 +126,8 @@ module OneAndOne
         'ip_id' => ip_id,
         'load_balancer_id' => load_balancer_id,
         'monitoring_policy_id' => monitoring_policy_id,
-        'public_key' => public_key
+        'public_key' => public_key,
+        'server_type' => server_type
       }
 
       # Clean out null keys in POST body
@@ -104,9 +141,9 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :post,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -132,8 +169,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -151,8 +188,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -173,8 +210,35 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
+
+      # Check response status
+      OneAndOne.check_response(response.body, response.status)
+
+      #JSON-ify the response string
+      json = JSON.parse(response.body)
+
+      # Reload specs attribute
+      @specs = json
+
+      # If all good, return JSON
+      json
+
+    end
+
+    def get_baremetal(baremetal_id: @id)
+
+      # If user passed in baremetal ID, reassign
+      @id = baremetal_id
+
+      # Build URL
+      path = OneAndOne.build_url("/servers/baremetal_models/#{@id}")
+
+      # Perform request
+      response = @connection.request(:method => :get,
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -213,9 +277,9 @@ module OneAndOne
 
       # Perform Request
       response = @connection.request(:method => :put,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -244,9 +308,9 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :delete,
-        :path => path,
-        :headers => $header,
-        :query => params)
+                                     :path => path,
+                                     :headers => $header,
+                                     :query => params)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -267,8 +331,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -280,7 +344,7 @@ module OneAndOne
 
 
     def modify_hardware(server_id: @id, fixed_instance_id: nil, vcore: nil,
-      cores_per_processor: nil, ram: nil)
+                        cores_per_processor: nil, ram: nil)
 
       # If user passed in server ID, reassign
       @id = server_id
@@ -304,9 +368,9 @@ module OneAndOne
 
       # Perform Request
       response = @connection.request(:method => :put,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -327,8 +391,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -357,9 +421,9 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :post,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -380,8 +444,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -413,9 +477,9 @@ module OneAndOne
 
       # Perform Request
       response = @connection.request(:method => :put,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -436,8 +500,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :delete,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -458,8 +522,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -471,7 +535,7 @@ module OneAndOne
 
 
     def install_image(server_id: @id, image_id: nil, password: nil,
-      firewall_id: nil)
+                      firewall_id: nil)
 
       # If user passed in server ID, reassign
       @id = server_id
@@ -496,9 +560,9 @@ module OneAndOne
 
       # Perform Request
       response = @connection.request(:method => :put,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -519,8 +583,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -552,9 +616,9 @@ module OneAndOne
 
       # Perform Request
       response = @connection.request(:method => :post,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -575,8 +639,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -607,9 +671,9 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :delete,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -641,9 +705,9 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :put,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -664,8 +728,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -686,8 +750,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :delete,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -708,8 +772,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -741,9 +805,9 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :post,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -764,8 +828,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :delete,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -786,8 +850,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -798,7 +862,7 @@ module OneAndOne
     end
 
 
-    def change_status(server_id: @id, action: nil, method: nil)
+    def change_status(server_id: @id, action: nil, method: nil, recovery_mode: nil, recovery_image_id: nil)
 
       # If user passed in server ID, reassign
       @id = server_id
@@ -808,6 +872,9 @@ module OneAndOne
         'action' => action,
         'method' => method
       }
+
+      status_specs['recovery_mode'] = recovery_mode unless recovery_mode.nil?
+      status_specs['recovery_image_id'] = recovery_image_id unless recovery_image_id.nil?
 
       # Clean out null keys in PUT body
       body = OneAndOne.clean_hash(status_specs)
@@ -820,9 +887,9 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :put,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -843,8 +910,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -876,9 +943,9 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :put,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -899,8 +966,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :delete,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -921,8 +988,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -943,8 +1010,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -965,8 +1032,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :delete,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -998,9 +1065,9 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :post,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -1021,8 +1088,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :post,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -1043,8 +1110,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :get,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -1065,8 +1132,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :put,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -1087,8 +1154,8 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :delete,
-        :path => path,
-        :headers => $header)
+                                     :path => path,
+                                     :headers => $header)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
@@ -1121,9 +1188,9 @@ module OneAndOne
 
       # Perform request
       response = @connection.request(:method => :post,
-        :path => path,
-        :headers => $header,
-        :body => string_body)
+                                     :path => path,
+                                     :headers => $header,
+                                     :body => string_body)
 
       # Check response status
       OneAndOne.check_response(response.body, response.status)
