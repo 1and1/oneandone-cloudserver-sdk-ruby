@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "1and1"
-  spec.version       = "1.2"
+  spec.version       = "1.2.0"
   spec.authors       = ["Tyler Burkhardt (stackpointcloud.com)"]
   spec.email         = "tyler@stackpointcloud.com"
   spec.summary       = "Official 1&1 SDK for Ruby"
