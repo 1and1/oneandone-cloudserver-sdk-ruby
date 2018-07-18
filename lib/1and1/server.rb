@@ -227,6 +227,7 @@ module OneAndOne
 
     end
 
+
     def get_baremetal(baremetal_id: @id)
 
       # If user passed in baremetal ID, reassign
@@ -740,28 +741,6 @@ module OneAndOne
     end
 
 
-    def remove_firewall(server_id: @id, ip_id: nil)
-
-      # If user passed in server ID, reassign
-      @id = server_id
-
-      # Build URL
-      path = OneAndOne.build_url("/servers/#{@id}/ips/#{ip_id}/firewall_policy")
-
-      # Perform request
-      response = @connection.request(:method => :delete,
-                                     :path => path,
-                                     :headers => $header)
-
-      # Check response status
-      OneAndOne.check_response(response.body, response.status)
-
-      #JSON-ify the response string
-      JSON.parse(response.body)
-
-    end
-
-
     def load_balancers(server_id: @id, ip_id: nil)
 
       # If user passed in server ID, reassign
@@ -1262,6 +1241,49 @@ module OneAndOne
         # Parse for first IP
         parser(current_response)
 
+      end
+
+      # Return Duration
+      {:duration => duration}
+
+    end
+
+    def wait_deleted(server_id: @id, timeout: 25, interval: 15)
+
+      # Capture start time
+      start = Time.now
+
+      # If user passed in server ID, reassign
+      @id = server_id
+
+      # Build URL
+      path = OneAndOne.build_url("/servers/#{@id}")
+
+      # Perform request
+      response = @connection.request(:method => :get,
+                                     :path => path,
+                                     :headers => $header)
+
+#      OneAndOne.check_response(response.body, response.status)
+
+      puts "before until #{response.status}"
+      # Keep polling the server's state until 404
+      until response.status == 404
+
+        # Wait 15 seconds before polling again
+        sleep interval
+        puts "checking server deleted status #{response.status}"
+        # Perform request
+        response = @connection.request(:method => :get,
+                                       :path => path,
+                                       :headers => $header)
+
+        # Calculate current duration and check for timeout
+        duration = (Time.now - start) / 60
+        if duration > timeout
+          puts "The operation timed out after #{timeout} minutes.\n"
+          return
+        end
       end
 
       # Return Duration

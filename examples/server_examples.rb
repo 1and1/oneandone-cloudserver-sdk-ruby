@@ -268,15 +268,6 @@ puts JSON.pretty_generate(response)
 
 
 
-# Remove a server IP's firewall
-server = OneAndOne::Server.new()
-
-response = server.remove_firewall(server_id: '<SERVER-ID>', ip_id: '<IP-ID>')
-
-puts JSON.pretty_generate(response)
-
-
-
 # List a server IP's load balancers
 server = OneAndOne::Server.new()
 

@@ -120,19 +120,6 @@ Firewall Policies
      :rtype: JSON
 
 
-   .. rb:method:: remove_ip(firewall_id: @id, ip_id: nil)
-
-     Remove an IP from a firewall policy.
-
-     :param firewall_id: the unique identifier for the firewall policy.
-     :type firewall_id: ``str``
-
-     :param ip_id: the unique identifier for the IP.
-     :type ip_id: ``str``
-
-     :rtype: JSON
-
-
    .. rb:method:: rules(firewall_id: @id)
 
      Returns a list the firewall policy's rules.
