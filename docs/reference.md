@@ -657,17 +657,6 @@ response = server.release_ip(server_id: '<SERVER-ID>', ip_id: '<IP-ID>')
 ```
 
 
-**Remove a firewall policy from a server's IP:**
-
-```
-response = server.remove_firewall(ip_id: '<IP-ID>')
-
-OR
-
-response = server.remove_firewall(server_id: '<SERVER-ID>', ip_id: '<IP-ID>')
-```
-
-
 **Remove a load balancer from a server's IP:**
 
 ```
@@ -998,9 +987,9 @@ response = firewall.rule(firewall_id: '<FIREWALL-ID>', rule_id: '<RULE-ID>')
 ```
 rule1 = {
   'protocol' => 'TCP',
-  'port_from' => 80,
-  'port_to' => 80,
-  'source' => '0.0.0.0'
+  'port' => 80,
+  'source' => '0.0.0.0',
+  'action' => 'allow'
 }
 
 rules = [rule1]
@@ -1017,9 +1006,9 @@ response = firewall.create(name: 'Test Firewall',
 ```
 rule2 = {
   'protocol' => 'TCP',
-  'port_from' => 90,
-  'port_to' => 90,
-  'source' => '0.0.0.0'
+  'port' => 90,
+  'source' => '0.0.0.0',
+  'action' => 'allow'
 }
 
 rules = [rule2]
@@ -1080,19 +1069,6 @@ OR
 
 response = firewall.remove_rule(firewall_id: '<FIREWALL-ID>', rule_id: '<RULE-ID>')
 ```
-
-
-**Remove a firewall policy's IP:**
-
-```
-response = firewall.remove_ip(ip_id: '<IP-ID>')
-
-OR
-
-response = firewall.remove_ip(firewall_id: '<FIREWALL-ID>', ip_id: '<IP-ID>')
-```
-
-
 
 
 # <a name="load-balancers"></a>Load Balancers

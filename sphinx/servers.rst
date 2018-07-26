@@ -379,21 +379,6 @@ Servers
        :rtype: JSON
 
 
-
-    .. rb:method:: remove_firewall(server_id: @id, ip_id: nil)
-
-       Remove a firewall policy from a server's IP.
-
-       :param server_id: the unique identifier for the server.
-       :type server_id: ``str``
-
-       :param ip_id: the unique identifier for the server's IP.
-       :type ip_id: ``str``
-
-       :rtype: JSON
-
-
-
     .. rb:method:: load_balancers(server_id: @id, ip_id: nil)
 
        Returns a list of the load balancers assigned to a server IP.

@@ -150,8 +150,8 @@ firewall = OneAndOne::Firewall.new
 # Create Rules
 rule1 = {
   'protocol' => 'TCP',
-  'port_from' => 80,
-  'port_to' => 80,
+  'port' => 80,
+  'action' => 'allow',
   'source' => '0.0.0.0'
 }
 

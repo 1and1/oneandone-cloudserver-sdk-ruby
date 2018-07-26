@@ -43,9 +43,10 @@ class TestFirewall < Minitest::Test
     
     rule1 = {
       'protocol' => 'TCP',
-      'port_from' => 80,
-      'port_to' => 80,
-      'source' => '0.0.0.0'
+      'port' => 80,
+      'source' => '0.0.0.0',
+      'action' => 'allow',
+      'description' => 'some desc'
     }
 
     rules = [rule1]
@@ -192,27 +193,6 @@ class TestFirewall < Minitest::Test
   end
 
 
-  def test_remove_ip
-
-    # Read in mock JSON
-    file = File.read('mock-api/remove-ip-fp.json')
-    data = JSON.parse(file)
-
-    # Create stub and perform call
-    Excon.stub({:method => :delete, :path => "/v1/firewall_policies/#{data['id']}/server_ips/IP-ID"},
-      {:body => JSON.generate(data), :status => 202})
-    
-    response = @firewall.remove_ip(firewall_id: data['id'], ip_id: 'IP-ID')
-
-    # Assertions
-    assert_equal response['server_ips'].length, 0
-
-    # Clear out stubs
-    Excon.stubs.clear
-
-  end
-
-
   def test_rules
 
     # Read in mock JSON
@@ -267,9 +247,10 @@ class TestFirewall < Minitest::Test
     
     rule2 = {
       'protocol' => 'TCP',
-      'port_from' => 90,
-      'port_to' => 90,
-      'source' => '0.0.0.0'
+      'port' => 90,
+      'source' => '0.0.0.0',
+      'action' => 'allow',
+      'description' => 'some desc'
     }
 
     rules = [rule2]
