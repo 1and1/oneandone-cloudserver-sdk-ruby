@@ -13,7 +13,7 @@ class TestServer < Minitest::Test
   def test_list
     
     # Read in mock JSON
-    file = File.read('mock-api/list-servers.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/list-servers.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -34,7 +34,7 @@ class TestServer < Minitest::Test
   def test_create
 
     # Read in mock JSON
-    file = File.read('mock-api/create-server.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/create-server.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -65,7 +65,7 @@ class TestServer < Minitest::Test
   def test_list_fixed
 
     # Read in mock JSON
-    file = File.read('mock-api/fixed-server-flavors.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/fixed-server-flavors.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -86,7 +86,7 @@ class TestServer < Minitest::Test
   def test_get_fixed
 
     # Read in mock JSON
-    file = File.read('mock-api/get-fixed-server.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/get-fixed-server.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -108,7 +108,7 @@ class TestServer < Minitest::Test
   def test_get
 
     # Read in mock JSON
-    file = File.read('mock-api/get-server.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/get-server.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -130,7 +130,7 @@ class TestServer < Minitest::Test
   def test_modify
 
     # Read in mock JSON
-    file = File.read('mock-api/modify-server.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/modify-server.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -151,7 +151,7 @@ class TestServer < Minitest::Test
   def test_delete
 
     # Read in mock JSON
-    file = File.read('mock-api/delete-server.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/delete-server.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -173,7 +173,7 @@ class TestServer < Minitest::Test
   def test_hardware
 
     # Read in mock JSON
-    file = File.read('mock-api/get-hardware.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/get-hardware.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -196,7 +196,7 @@ class TestServer < Minitest::Test
   def test_modify_hardware
 
     # Read in mock JSON
-    file = File.read('mock-api/modify-server-hardware.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/modify-server-hardware.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -218,7 +218,7 @@ class TestServer < Minitest::Test
   def test_hdds
 
     # Read in mock JSON
-    file = File.read('mock-api/list-hdds.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/list-hdds.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -240,7 +240,7 @@ class TestServer < Minitest::Test
   def test_add_hdds
 
     # Read in mock JSON
-    file = File.read('mock-api/add-hdd.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/add-hdd.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -269,7 +269,7 @@ class TestServer < Minitest::Test
   def test_get_hdd
 
     # Read in mock JSON
-    file = File.read('mock-api/get-hdd.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/get-hdd.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -291,7 +291,7 @@ class TestServer < Minitest::Test
   def test_modify_hdd
 
     # Read in mock JSON
-    file = File.read('mock-api/modify-server-hdd.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/modify-server-hdd.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -314,7 +314,7 @@ class TestServer < Minitest::Test
   def test_delete_hdd
 
     # Read in mock JSON
-    file = File.read('mock-api/remove-hdd.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/remove-hdd.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -337,7 +337,7 @@ class TestServer < Minitest::Test
   def test_image
 
     # Read in mock JSON
-    file = File.read('mock-api/get-server-image.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/get-server-image.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -359,7 +359,7 @@ class TestServer < Minitest::Test
   def test_install_image
 
     # Read in mock JSON
-    file = File.read('mock-api/reinstall-image.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/reinstall-image.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -382,7 +382,7 @@ class TestServer < Minitest::Test
   def test_ips
 
     # Read in mock JSON
-    file = File.read('mock-api/list-server-ips.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/list-server-ips.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -404,7 +404,7 @@ class TestServer < Minitest::Test
   def test_add_ip
 
     # Read in mock JSON
-    file = File.read('mock-api/add-server-ip.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/add-server-ip.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -426,7 +426,7 @@ class TestServer < Minitest::Test
   def test_ip
 
     # Read in mock JSON
-    file = File.read('mock-api/get-server-ip.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/get-server-ip.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -448,7 +448,7 @@ class TestServer < Minitest::Test
   def test_release_ip
 
     # Read in mock JSON
-    file = File.read('mock-api/remove-server-ip.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/remove-server-ip.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -471,7 +471,7 @@ class TestServer < Minitest::Test
   def test_add_firewall
 
     # Read in mock JSON
-    file = File.read('mock-api/add-firewall.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/add-firewall.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -496,7 +496,7 @@ class TestServer < Minitest::Test
   def test_firewall
 
     # Read in mock JSON
-    file = File.read('mock-api/get-server-ip-fp.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/get-server-ip-fp.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -516,33 +516,10 @@ class TestServer < Minitest::Test
   end
 
 
-  def test_remove_firewall
-
-    # Read in mock JSON
-    file = File.read('mock-api/remove-ip-fp.json')
-    data = JSON.parse(file)
-
-    # Create stub and perform call
-    Excon.stub({:method => :delete,
-      :path => "/v1/servers/#{data['id']}/ips/IP-ID/firewall_policy"},
-      {:body => JSON.generate(data), :status => 202})
-    
-    response = @server.remove_firewall(server_id: data['id'],
-      ip_id: 'IP-ID')
-
-    # Assertions
-    assert_equal response['state'], 'CONFIGURING'
-
-    # Clear out stubs
-    Excon.stubs.clear 
-
-  end
-
-
   def test_load_balancers
 
     # Read in mock JSON
-    file = File.read('mock-api/list-server-lbs.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/list-server-lbs.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -565,7 +542,7 @@ class TestServer < Minitest::Test
   def test_add_load_balancer
 
     # Read in mock JSON
-    file = File.read('mock-api/add-lb.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/add-lb.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -590,7 +567,7 @@ class TestServer < Minitest::Test
   def test_remove_load_balancer
 
     # Read in mock JSON
-    file = File.read('mock-api/remove-lb.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/remove-lb.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -613,7 +590,7 @@ class TestServer < Minitest::Test
   def test_status
 
     # Read in mock JSON
-    file = File.read('mock-api/get-server-status.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/get-server-status.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -635,7 +612,7 @@ class TestServer < Minitest::Test
   def test_change_status
 
     # Read in mock JSON
-    file = File.read('mock-api/change-server-status.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/change-server-status.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -659,7 +636,7 @@ class TestServer < Minitest::Test
   def test_dvd
 
     # Read in mock JSON
-    file = File.read('mock-api/get-server-dvd.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/get-server-dvd.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -681,7 +658,7 @@ class TestServer < Minitest::Test
   def test_load_dvd
 
     # Read in mock JSON
-    file = File.read('mock-api/load-dvd.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/load-dvd.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -692,7 +669,7 @@ class TestServer < Minitest::Test
     response = @server.load_dvd(server_id: data['id'], dvd_id: 'DVD-ID')
 
     # Assertions
-    assert_equal response['dvd'], nil
+    assert_nil response['dvd']
 
     # Clear out stubs
     Excon.stubs.clear 
@@ -703,7 +680,7 @@ class TestServer < Minitest::Test
   def test_eject_dvd
 
     # Read in mock JSON
-    file = File.read('mock-api/eject-dvd.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/eject-dvd.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -725,7 +702,7 @@ class TestServer < Minitest::Test
   def test_private_networks
 
     # Read in mock JSON
-    file = File.read('mock-api/list-server-pns.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/list-server-pns.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -747,7 +724,7 @@ class TestServer < Minitest::Test
   def test_private_network
 
     # Read in mock JSON
-    file = File.read('mock-api/get-server-pn.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/get-server-pn.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -770,7 +747,7 @@ class TestServer < Minitest::Test
   def test_add_private_network
 
     # Read in mock JSON
-    file = File.read('mock-api/add-pn.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/add-pn.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -782,7 +759,7 @@ class TestServer < Minitest::Test
       private_network_id: 'PRIVATE-NETWORK-ID')
 
     # Assertions
-    assert_equal response['private_networks'], nil
+    assert_nil response['private_networks']
 
     # Clear out stubs
     Excon.stubs.clear
@@ -793,7 +770,7 @@ class TestServer < Minitest::Test
   def test_remove_private_network
 
     # Read in mock JSON
-    file = File.read('mock-api/remove-pn.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/remove-pn.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -816,7 +793,7 @@ class TestServer < Minitest::Test
   def test_create_snapshot
 
     # Read in mock JSON
-    file = File.read('mock-api/create-snapshot.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/create-snapshot.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -838,7 +815,7 @@ class TestServer < Minitest::Test
   def test_snapshot
 
     # Read in mock JSON
-    file = File.read('mock-api/list-snapshots.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/list-snapshots.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -860,7 +837,7 @@ class TestServer < Minitest::Test
   def test_restore_snapshot
 
     # Read in mock JSON
-    file = File.read('mock-api/restore-snapshot.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/restore-snapshot.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -883,7 +860,7 @@ class TestServer < Minitest::Test
   def test_delete_snapshot
 
     # Read in mock JSON
-    file = File.read('mock-api/delete-snapshot.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/delete-snapshot.json')
     data = JSON.parse(file)
 
     # Create stub and perform call
@@ -906,7 +883,7 @@ class TestServer < Minitest::Test
   def test_clone
 
     # Read in mock JSON
-    file = File.read('mock-api/clone-server.json')
+    file = File.read('D:/Repos/oneandone/oneandone-cloudserver-sdk-ruby/test/mock-api/clone-server.json')
     data = JSON.parse(file)
 
     # Create stub and perform call

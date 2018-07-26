@@ -257,28 +257,6 @@ module OneAndOne
     end
 
 
-    def remove_ip(firewall_id: @id, ip_id: nil)
-
-      # If user passed in firewall ID, reassign
-      @id = firewall_id
-
-      # Build URL
-      path = OneAndOne.build_url("/firewall_policies/#{@id}/server_ips/#{ip_id}")
-
-      # Perform request
-      response = @connection.request(:method => :delete,
-        :path => path,
-        :headers => $header)
-
-      # Check response status
-      OneAndOne.check_response(response.body, response.status)
-
-      #JSON-ify the response string
-      JSON.parse(response.body)
-
-    end
-
-
     def rules(firewall_id: @id)
 
       # If user passed in firewall ID, reassign
